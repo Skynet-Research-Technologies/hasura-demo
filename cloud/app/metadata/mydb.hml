@@ -1,0 +1,26 @@
+kind: DataConnectorLink
+version: v2
+definition:
+  name: mydb
+  url:
+    readWriteUrls:
+      read:
+        valueFromEnv: APP_MYDB_READ_URL
+      write:
+        valueFromEnv: APP_MYDB_WRITE_URL
+  headers:
+    Authorization:
+      valueFromEnv: APP_MYDB_AUTHORIZATION_HEADER
+  schema:
+    version: v0.1
+    schema:
+      scalar_types: {}
+      object_types: {}
+      collections: []
+      functions: []
+      procedures: []
+    capabilities:
+      version: "0.1.3"
+      capabilities:
+        query: {}
+        mutation: {} 

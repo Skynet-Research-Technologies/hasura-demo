@@ -1,0 +1,18 @@
+database:
+  connection:
+    url: "postgres://root:root@localhost:5432/mydb"
+  pool_settings:
+    max_connections: 50
+    idle_timeout: 180
+  migrations:
+    directory: "./migrations"
+  metadata:
+    directory: "./metadata"
+
+graphql:
+  endpoint: "/v1/graphql"
+  admin_secret: "myadminsecretkey"
+
+server:
+  port: 8080
+  host: "0.0.0.0"
