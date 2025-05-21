@@ -1,9 +1,3 @@
-# Hasura DDN Boilerplate
+## Hadura DDN Project
 
-### Contributing
-
-Feel free to submit issues or pull requests to improve this boilerplate setup. 
-
-### License
-
-This project is licensed under the MIT License.
+> https://hasura.io/docs/3.0/how-to-build-with-ddn/with-postgresql/
