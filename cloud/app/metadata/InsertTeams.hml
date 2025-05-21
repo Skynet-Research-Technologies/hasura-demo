@@ -1,0 +1,114 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertTeamsObject
+  fields:
+    - name: id
+      type: Int32
+    - name: name
+      type: String_1!
+    - name: sportId
+      type: Int32
+  graphql:
+    typeName: InsertTeamsObject
+    inputTypeName: InsertTeamsObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_teams_object
+      fieldMapping:
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        sportId:
+          column:
+            name: sport_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertTeamsObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - name
+          - sportId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertTeamsResponse
+  description: Responses from the 'insert_teams' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Teams!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertTeamsResponse
+    inputTypeName: InsertTeamsResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_teams_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertTeamsResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertTeams
+  outputType: InsertTeamsResponse!
+  arguments:
+    - name: objects
+      type: "[InsertTeamsObject!]!"
+    - name: postCheck
+      type: TeamsBoolExp
+      description: Insert permission predicate over the 'teams' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: insert_teams
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertTeams
+    rootFieldKind: Mutation
+  description: Insert into the teams table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertTeams
+  permissions:
+    - role: admin
+      allowExecution: true
+

@@ -1,0 +1,221 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnTeamsId
+  description: Update the 'id' column in the 'teams' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnTeamsId
+    inputTypeName: UpdateColumnTeamsIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_teams_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnTeamsId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnTeamsName
+  description: Update the 'name' column in the 'teams' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnTeamsName
+    inputTypeName: UpdateColumnTeamsNameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_teams_name
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnTeamsName
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnTeamsSportId
+  description: Update the 'sport_id' column in the 'teams' collection
+  fields:
+    - name: set
+      type: Int32
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnTeamsSportId
+    inputTypeName: UpdateColumnTeamsSportIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_teams_sport_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnTeamsSportId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateTeamsByIdUpdateColumns
+  description: Update the columns of the 'teams' collection
+  fields:
+    - name: id
+      type: UpdateColumnTeamsId
+      description: Update the 'id' column in the 'teams' collection.
+    - name: name
+      type: UpdateColumnTeamsName
+      description: Update the 'name' column in the 'teams' collection.
+    - name: sportId
+      type: UpdateColumnTeamsSportId
+      description: Update the 'sport_id' column in the 'teams' collection.
+  graphql:
+    typeName: UpdateTeamsByIdUpdateColumns
+    inputTypeName: UpdateTeamsByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_teams_by_id_update_columns
+      fieldMapping:
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        sportId:
+          column:
+            name: sport_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateTeamsByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - name
+          - sportId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateTeamsByIdResponse
+  description: Responses from the 'update_teams_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Teams!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateTeamsByIdResponse
+    inputTypeName: UpdateTeamsByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_teams_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateTeamsByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateTeamsById
+  outputType: UpdateTeamsByIdResponse!
+  arguments:
+    - name: keyId
+      type: Int32!
+    - name: postCheck
+      type: TeamsBoolExp
+      description: Update permission post-condition predicate over the 'teams' collection
+    - name: preCheck
+      type: TeamsBoolExp
+      description: Update permission pre-condition predicate over the 'teams' collection
+    - name: updateColumns
+      type: UpdateTeamsByIdUpdateColumns!
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: update_teams_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateTeamsById
+    rootFieldKind: Mutation
+  description: Update any row on the 'teams' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateTeamsById
+  permissions:
+    - role: admin
+      allowExecution: true
+

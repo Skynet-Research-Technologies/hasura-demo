@@ -1,0 +1,101 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertSportObject
+  fields:
+    - name: id
+      type: Int32
+    - name: name
+      type: String_1!
+  graphql:
+    typeName: InsertSportObject
+    inputTypeName: InsertSportObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_sport_object
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertSportObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - name
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertSportResponse
+  description: Responses from the 'insert_sport' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Sport!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertSportResponse
+    inputTypeName: InsertSportResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_sport_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertSportResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertSport
+  outputType: InsertSportResponse!
+  arguments:
+    - name: objects
+      type: "[InsertSportObject!]!"
+    - name: postCheck
+      type: SportBoolExp
+      description: Insert permission predicate over the 'sport' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: insert_sport
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertSport
+    rootFieldKind: Mutation
+  description: Insert into the sport table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertSport
+  permissions:
+    - role: admin
+      allowExecution: true
+

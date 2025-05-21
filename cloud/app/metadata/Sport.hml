@@ -1,0 +1,148 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Sport
+  fields:
+    - name: id
+      type: Int32!
+    - name: name
+      type: String_1!
+  graphql:
+    typeName: Sport
+    inputTypeName: SportInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: sport
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Sport
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - name
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: SportBoolExp
+  operand:
+    object:
+      type: Sport
+      comparableFields:
+        - fieldName: id
+          booleanExpressionType: Int4BoolExp
+        - fieldName: name
+          booleanExpressionType: TextBoolExp
+      comparableRelationships:
+        - relationshipName: teams
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: SportBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: SportAggExp
+  operand:
+    object:
+      aggregatedType: Sport
+      aggregatableFields:
+        - fieldName: id
+          aggregateExpression: Int4AggExp
+        - fieldName: name
+          aggregateExpression: TextAggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: SportAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: SportOrderByExp
+  operand:
+    object:
+      orderedType: Sport
+      orderableFields:
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: SportOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Sport
+  objectType: Sport
+  source:
+    dataConnectorName: mydb
+    collection: sport
+  filterExpressionType: SportBoolExp
+  aggregateExpression: SportAggExp
+  orderByExpression: SportOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: sport
+      subscription:
+        rootField: sport
+    selectUniques:
+      - queryRootField: sportById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: sportById
+    filterInputTypeName: SportFilterInput
+    aggregate:
+      queryRootField: sportAggregate
+      subscription:
+        rootField: sportAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Sport
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: teams
+  sourceType: Sport
+  target:
+    model:
+      name: Teams
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: TeamsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: sportId
+  graphql:
+    aggregateFieldName: teamsAggregate
+

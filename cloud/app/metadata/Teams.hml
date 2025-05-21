@@ -1,0 +1,187 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Teams
+  fields:
+    - name: id
+      type: Int32!
+    - name: name
+      type: String_1!
+    - name: sportId
+      type: Int32
+  graphql:
+    typeName: Teams
+    inputTypeName: TeamsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: teams
+      fieldMapping:
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        sportId:
+          column:
+            name: sport_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Teams
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - name
+          - sportId
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: TeamsBoolExp
+  operand:
+    object:
+      type: Teams
+      comparableFields:
+        - fieldName: id
+          booleanExpressionType: Int4BoolExp
+        - fieldName: name
+          booleanExpressionType: TextBoolExp
+        - fieldName: sportId
+          booleanExpressionType: Int4BoolExp
+      comparableRelationships:
+        - relationshipName: people
+        - relationshipName: sport
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: TeamsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: TeamsAggExp
+  operand:
+    object:
+      aggregatedType: Teams
+      aggregatableFields:
+        - fieldName: id
+          aggregateExpression: Int4AggExp
+        - fieldName: name
+          aggregateExpression: TextAggExp
+        - fieldName: sportId
+          aggregateExpression: Int4AggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: TeamsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: TeamsOrderByExp
+  operand:
+    object:
+      orderedType: Teams
+      orderableFields:
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+        - fieldName: sportId
+          orderByExpression: Int32OrderByExp
+      orderableRelationships:
+        - relationshipName: sport
+  graphql:
+    expressionTypeName: TeamsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Teams
+  objectType: Teams
+  source:
+    dataConnectorName: mydb
+    collection: teams
+  filterExpressionType: TeamsBoolExp
+  aggregateExpression: TeamsAggExp
+  orderByExpression: TeamsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: teams
+      subscription:
+        rootField: teams
+    selectUniques:
+      - queryRootField: teamsById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: teamsById
+    filterInputTypeName: TeamsFilterInput
+    aggregate:
+      queryRootField: teamsAggregate
+      subscription:
+        rootField: teamsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Teams
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: people
+  sourceType: Teams
+  target:
+    model:
+      name: People
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: PeopleAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: teamId
+  graphql:
+    aggregateFieldName: peopleAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: sport
+  sourceType: Teams
+  target:
+    model:
+      name: Sport
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: sportId
+      target:
+        modelField:
+          - fieldName: id
+

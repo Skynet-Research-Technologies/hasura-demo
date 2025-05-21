@@ -15,5 +15,5 @@ definition:
     APP_MYDB_WRITE_URL:
       fromEnv: APP_MYDB_WRITE_URL
   connectors:
-    - path: connector/mydb/connector.yaml
-      connectorLinkName: mydb
+    - mydb:
+      path: connector/mydb/connector.yaml

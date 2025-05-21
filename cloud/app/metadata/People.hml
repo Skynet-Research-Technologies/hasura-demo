@@ -1,0 +1,164 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: People
+  fields:
+    - name: id
+      type: Int32!
+    - name: name
+      type: String_1!
+    - name: teamId
+      type: Int32
+  graphql:
+    typeName: People
+    inputTypeName: PeopleInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: people
+      fieldMapping:
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        teamId:
+          column:
+            name: team_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: People
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - name
+          - teamId
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: PeopleBoolExp
+  operand:
+    object:
+      type: People
+      comparableFields:
+        - fieldName: id
+          booleanExpressionType: Int4BoolExp
+        - fieldName: name
+          booleanExpressionType: TextBoolExp
+        - fieldName: teamId
+          booleanExpressionType: Int4BoolExp
+      comparableRelationships:
+        - relationshipName: team
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: PeopleBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: PeopleAggExp
+  operand:
+    object:
+      aggregatedType: People
+      aggregatableFields:
+        - fieldName: id
+          aggregateExpression: Int4AggExp
+        - fieldName: name
+          aggregateExpression: TextAggExp
+        - fieldName: teamId
+          aggregateExpression: Int4AggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: PeopleAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: PeopleOrderByExp
+  operand:
+    object:
+      orderedType: People
+      orderableFields:
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+        - fieldName: teamId
+          orderByExpression: Int32OrderByExp
+      orderableRelationships:
+        - relationshipName: team
+  graphql:
+    expressionTypeName: PeopleOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: People
+  objectType: People
+  source:
+    dataConnectorName: mydb
+    collection: people
+  filterExpressionType: PeopleBoolExp
+  aggregateExpression: PeopleAggExp
+  orderByExpression: PeopleOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: people
+      subscription:
+        rootField: people
+    selectUniques:
+      - queryRootField: peopleById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: peopleById
+    filterInputTypeName: PeopleFilterInput
+    aggregate:
+      queryRootField: peopleAggregate
+      subscription:
+        rootField: peopleAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: People
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: team
+  sourceType: People
+  target:
+    model:
+      name: Teams
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: teamId
+      target:
+        modelField:
+          - fieldName: id
+

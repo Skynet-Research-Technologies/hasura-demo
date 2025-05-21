@@ -1,0 +1,114 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertPeopleObject
+  fields:
+    - name: id
+      type: Int32
+    - name: name
+      type: String_1!
+    - name: teamId
+      type: Int32
+  graphql:
+    typeName: InsertPeopleObject
+    inputTypeName: InsertPeopleObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_people_object
+      fieldMapping:
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        teamId:
+          column:
+            name: team_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertPeopleObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - name
+          - teamId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertPeopleResponse
+  description: Responses from the 'insert_people' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[People!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertPeopleResponse
+    inputTypeName: InsertPeopleResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_people_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertPeopleResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertPeople
+  outputType: InsertPeopleResponse!
+  arguments:
+    - name: objects
+      type: "[InsertPeopleObject!]!"
+    - name: postCheck
+      type: PeopleBoolExp
+      description: Insert permission predicate over the 'people' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: insert_people
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertPeople
+    rootFieldKind: Mutation
+  description: Insert into the people table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertPeople
+  permissions:
+    - role: admin
+      allowExecution: true
+

@@ -1,0 +1,72 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeletePeopleByIdResponse
+  description: Responses from the 'delete_people_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[People!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: DeletePeopleByIdResponse
+    inputTypeName: DeletePeopleByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: delete_people_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeletePeopleByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeletePeopleById
+  outputType: DeletePeopleByIdResponse!
+  arguments:
+    - name: keyId
+      type: Int32!
+    - name: preCheck
+      type: PeopleBoolExp
+      description: Delete permission predicate over the 'people' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: delete_people_by_id
+    argumentMapping:
+      keyId: key_id
+      preCheck: pre_check
+  graphql:
+    rootFieldName: deletePeopleById
+    rootFieldKind: Mutation
+  description: Delete any row on the 'people' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeletePeopleById
+  permissions:
+    - role: admin
+      allowExecution: true
+
