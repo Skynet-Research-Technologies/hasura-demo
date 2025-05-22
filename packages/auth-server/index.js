@@ -21,7 +21,7 @@ app.post('/login', (req, res) => {
     // Create JWT with user claims
     const token = jwt.sign(
       {
-        'https://hasura.io/jwt/claims': {
+        'claims.jwt.hasura.io': {
           'x-hasura-allowed-roles': ['admin', 'user'],
           'x-hasura-default-role': user.role,
           'x-hasura-user-id': user.id.toString()

@@ -3,35 +3,14 @@ version: v3
 definition:
   mode:
     jwt:
-      header:
-        name: Authorization
-        prefix: Bearer
-      claims:
-        namespace: https://hasura.io/jwt/claims
-        directives:
-          - name: x-hasura-allowed-roles
-            propertyName: x-hasura-allowed-roles
-            type: array
-          - name: x-hasura-default-role
-            propertyName: x-hasura-default-role
-            type: string
-          - name: x-hasura-user-id
-            propertyName: x-hasura-user-id
-            type: string
-      secret:
-        env: HASURA_GRAPHQL_JWT_SECRET
-  roles:
-    - name: admin
-      permissions:
-        - tables:
-            - schema: public
-              table: '*'
-          actions: ['select', 'insert', 'update', 'delete']
-    - name: user
-      permissions:
-        - tables:
-            - schema: public
-              table: '*'
-          actions: ['select']
-  defaultRole: user
-
+      claimsConfig:
+        namespace:
+          claimsFormat: Json
+          location: /claims.jwt.hasura.io
+      tokenLocation:
+        type: BearerAuthorization
+      key:
+        fixed:
+          algorithm: HS256
+          key:
+            valueFromEnv: JWT_SECRET

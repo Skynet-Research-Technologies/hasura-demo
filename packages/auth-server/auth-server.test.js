@@ -14,8 +14,8 @@ describe('Auth Server /login endpoint', () => {
         // Verify JWT structure and claims
         const decoded = jwt.verify(res.body.token, JWT_SECRET);
         expect(decoded.name).toBe('admin');
-        expect(decoded['https://hasura.io/jwt/claims']['x-hasura-default-role']).toBe('admin');
-        expect(decoded['https://hasura.io/jwt/claims']['x-hasura-user-id']).toBe('1');
+        expect(decoded['claims.jwt.hasura.io']['x-hasura-default-role']).toBe('admin');
+        expect(decoded['claims.jwt.hasura.io']['x-hasura-user-id']).toBe('1');
     });
 
     it('should return a JWT for valid user credentials', async () => {
@@ -28,8 +28,8 @@ describe('Auth Server /login endpoint', () => {
 
         const decoded = jwt.verify(res.body.token, JWT_SECRET);
         expect(decoded.name).toBe('user');
-        expect(decoded['https://hasura.io/jwt/claims']['x-hasura-default-role']).toBe('user');
-        expect(decoded['https://hasura.io/jwt/claims']['x-hasura-user-id']).toBe('2');
+        expect(decoded['claims.jwt.hasura.io']['x-hasura-default-role']).toBe('user');
+        expect(decoded['claims.jwt.hasura.io']['x-hasura-user-id']).toBe('2');
     });
 
     it('should return 401 for invalid credentials', async () => {

@@ -4,5 +4,8 @@ definition:
   name: globals
   generator:
     rootPath: .
+  envMapping:
+    JWT_SECRET:
+      fromEnv: JWT_SECRET
   includePaths:
     - metadata

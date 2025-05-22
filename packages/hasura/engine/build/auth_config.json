@@ -1,1 +1,1 @@
-{"version":"v3","definition":{"mode":{"noAuth":{"role":"admin","sessionVariables":{}}}}}
+{"version":"v3","definition":{"mode":{"jwt":{"audience":null,"issuer":null,"allowedSkew":null,"claimsConfig":{"namespace":{"claimsFormat":"Json","location":"/claims.jwt.hasura.io"}},"tokenLocation":{"type":"BearerAuthorization"},"key":{"fixed":{"algorithm":"HS256","key":{"value":"deadbeef"}}}}}}}
