@@ -1,5 +1,5 @@
 engine/build
-/.env
-/.env.*
+.env
+.env.*
 
 /node_modules
