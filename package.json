@@ -14,19 +14,12 @@
   "author": "Clayton Herbst",
   "type": "commonjs",
   "main": "auth-server.js",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "start": "node auth-server.js",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "start": "npm run -w @hasura-demo/auth start"
   },
   "dependencies": {
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "supertest": "^7.1.1"
   }
 }

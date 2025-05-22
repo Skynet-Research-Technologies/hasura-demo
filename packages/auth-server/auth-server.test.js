@@ -1,6 +1,6 @@
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
-const app = require('./auth-server');
+const app = require('.');
 
 describe('Auth Server /login endpoint', () => {
     it('should return a JWT for valid admin credentials', async () => {
