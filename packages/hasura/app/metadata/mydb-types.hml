@@ -348,3 +348,260 @@ definition:
   graphql:
     expressionTypeName: String1OrderByExp
 
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Timestamp
+  graphql:
+    typeName: Timestamp
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: TimestampBoolExp
+  operand:
+    scalar:
+      type: Timestamp
+      comparisonOperators:
+        - name: _eq
+          argumentType: Timestamp!
+        - name: _gt
+          argumentType: Timestamp!
+        - name: _gte
+          argumentType: Timestamp!
+        - name: _in
+          argumentType: "[Timestamp!]!"
+        - name: _lt
+          argumentType: Timestamp!
+        - name: _lte
+          argumentType: Timestamp!
+        - name: _neq
+          argumentType: Timestamp!
+      dataConnectorOperatorMapping:
+        - dataConnectorName: mydb
+          dataConnectorScalarType: timestamp
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: TimestampBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: mydb
+  dataConnectorScalarType: timestamp
+  representation: Timestamp
+  graphql:
+    comparisonExpressionTypeName: TimestampComparisonExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: TimestampAggExp
+  operand:
+    scalar:
+      aggregatedType: Timestamp
+      aggregationFunctions:
+        - name: max
+          returnType: Timestamp
+        - name: min
+          returnType: Timestamp
+      dataConnectorAggregationFunctionMapping:
+        - dataConnectorName: mydb
+          dataConnectorScalarType: timestamp
+          functionMapping:
+            max:
+              name: max
+            min:
+              name: min
+  count:
+    enable: true
+  countDistinct:
+    enable: true
+  graphql:
+    selectTypeName: TimestampAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: TimestampOrderByExp
+  operand:
+    scalar:
+      orderedType: Timestamp
+      enableOrderByDirections:
+        enableAll: true
+  graphql:
+    expressionTypeName: TimestampOrderByExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Jsonb
+  graphql:
+    typeName: Jsonb
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: JsonbBoolExp
+  operand:
+    scalar:
+      type: Jsonb
+      comparisonOperators:
+        - name: _eq
+          argumentType: Jsonb!
+        - name: _gt
+          argumentType: Jsonb!
+        - name: _gte
+          argumentType: Jsonb!
+        - name: _in
+          argumentType: "[Jsonb!]!"
+        - name: _lt
+          argumentType: Jsonb!
+        - name: _lte
+          argumentType: Jsonb!
+        - name: _neq
+          argumentType: Jsonb!
+        - name: jsonb_contained
+          argumentType: Jsonb!
+        - name: jsonb_contains
+          argumentType: Jsonb!
+        - name: jsonb_exists
+          argumentType: String_1!
+      dataConnectorOperatorMapping:
+        - dataConnectorName: mydb
+          dataConnectorScalarType: jsonb
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: JsonbBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: mydb
+  dataConnectorScalarType: jsonb
+  representation: Jsonb
+  graphql:
+    comparisonExpressionTypeName: JsonbComparisonExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: NumericAggExp
+  operand:
+    scalar:
+      aggregatedType: Bigdecimal
+      aggregationFunctions:
+        - name: avg
+          returnType: Bigdecimal
+        - name: max
+          returnType: Bigdecimal
+        - name: min
+          returnType: Bigdecimal
+        - name: stddev
+          returnType: Bigdecimal
+        - name: stddev_pop
+          returnType: Bigdecimal
+        - name: stddev_samp
+          returnType: Bigdecimal
+        - name: sum
+          returnType: Bigdecimal
+        - name: var_pop
+          returnType: Bigdecimal
+        - name: var_samp
+          returnType: Bigdecimal
+        - name: variance
+          returnType: Bigdecimal
+      dataConnectorAggregationFunctionMapping:
+        - dataConnectorName: mydb
+          dataConnectorScalarType: numeric
+          functionMapping:
+            avg:
+              name: avg
+            max:
+              name: max
+            min:
+              name: min
+            stddev:
+              name: stddev
+            stddev_pop:
+              name: stddev_pop
+            stddev_samp:
+              name: stddev_samp
+            sum:
+              name: sum
+            var_pop:
+              name: var_pop
+            var_samp:
+              name: var_samp
+            variance:
+              name: variance
+  count:
+    enable: true
+  countDistinct:
+    enable: true
+  graphql:
+    selectTypeName: NumericAggExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: JsonbAggExp
+  operand:
+    scalar:
+      aggregatedType: Jsonb
+      aggregationFunctions: []
+      dataConnectorAggregationFunctionMapping:
+        - dataConnectorName: mydb
+          dataConnectorScalarType: jsonb
+          functionMapping: {}
+  count:
+    enable: true
+  countDistinct:
+    enable: true
+  graphql:
+    selectTypeName: JsonbAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: BigdecimalOrderByExp
+  operand:
+    scalar:
+      orderedType: Bigdecimal
+      enableOrderByDirections:
+        enableAll: true
+  graphql:
+    expressionTypeName: BigdecimalOrderByExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: JsonbOrderByExp
+  operand:
+    scalar:
+      orderedType: Jsonb
+      enableOrderByDirections:
+        enableAll: true
+  graphql:
+    expressionTypeName: JsonbOrderByExp
+

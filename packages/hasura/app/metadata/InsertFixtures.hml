@@ -1,0 +1,144 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertFixturesObject
+  fields:
+    - name: awayTeamId
+      type: Int32!
+    - name: createdAt
+      type: Timestamp
+    - name: fixtureDate
+      type: Timestamp!
+    - name: homeTeamId
+      type: Int32!
+    - name: id
+      type: Int32
+    - name: sportId
+      type: Int32!
+    - name: status
+      type: String_1
+    - name: venue
+      type: String_1
+  graphql:
+    typeName: InsertFixturesObject
+    inputTypeName: InsertFixturesObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_fixtures_object
+      fieldMapping:
+        awayTeamId:
+          column:
+            name: away_team_id
+        createdAt:
+          column:
+            name: created_at
+        fixtureDate:
+          column:
+            name: fixture_date
+        homeTeamId:
+          column:
+            name: home_team_id
+        id:
+          column:
+            name: id
+        sportId:
+          column:
+            name: sport_id
+        status:
+          column:
+            name: status
+        venue:
+          column:
+            name: venue
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertFixturesObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - awayTeamId
+          - createdAt
+          - fixtureDate
+          - homeTeamId
+          - id
+          - sportId
+          - status
+          - venue
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertFixturesResponse
+  description: Responses from the 'insert_fixtures' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Fixtures!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertFixturesResponse
+    inputTypeName: InsertFixturesResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_fixtures_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertFixturesResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertFixtures
+  outputType: InsertFixturesResponse!
+  arguments:
+    - name: objects
+      type: "[InsertFixturesObject!]!"
+    - name: postCheck
+      type: FixturesBoolExp
+      description: Insert permission predicate over the 'fixtures' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: insert_fixtures
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertFixtures
+    rootFieldKind: Mutation
+  description: Insert into the fixtures table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertFixtures
+  permissions:
+    - role: admin
+      allowExecution: true
+

@@ -57,6 +57,7 @@ definition:
           booleanExpressionType: Int4BoolExp
       comparableRelationships:
         - relationshipName: team
+        - relationshipName: playerstats
   logicalOperators:
     enable: true
   isNull:
@@ -161,4 +162,26 @@ definition:
       target:
         modelField:
           - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: playerstats
+  sourceType: People
+  target:
+    model:
+      name: Playerstats
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: PlayerstatsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: personId
+  graphql:
+    aggregateFieldName: playerstatsAggregate
 

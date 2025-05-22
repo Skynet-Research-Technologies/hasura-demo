@@ -1,0 +1,496 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsAssists
+  description: Update the 'assists' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Int32
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsAssists
+    inputTypeName: UpdateColumnPlayerstatsAssistsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_assists
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsAssists
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsFixtureId
+  description: Update the 'fixture_id' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsFixtureId
+    inputTypeName: UpdateColumnPlayerstatsFixtureIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_fixture_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsFixtureId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsGoals
+  description: Update the 'goals' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Int32
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsGoals
+    inputTypeName: UpdateColumnPlayerstatsGoalsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_goals
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsGoals
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsId
+  description: Update the 'id' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsId
+    inputTypeName: UpdateColumnPlayerstatsIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsMinutesPlayed
+  description: Update the 'minutes_played' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Int32
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsMinutesPlayed
+    inputTypeName: UpdateColumnPlayerstatsMinutesPlayedInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_minutes_played
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsMinutesPlayed
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsPersonId
+  description: Update the 'person_id' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsPersonId
+    inputTypeName: UpdateColumnPlayerstatsPersonIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_person_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsPersonId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsRating
+  description: Update the 'rating' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Bigdecimal
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsRating
+    inputTypeName: UpdateColumnPlayerstatsRatingInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_rating
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsRating
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsRedCards
+  description: Update the 'red_cards' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Int32
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsRedCards
+    inputTypeName: UpdateColumnPlayerstatsRedCardsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_red_cards
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsRedCards
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsStats
+  description: Update the 'stats' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Jsonb
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsStats
+    inputTypeName: UpdateColumnPlayerstatsStatsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_stats
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsStats
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsYellowCards
+  description: Update the 'yellow_cards' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: Int32
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsYellowCards
+    inputTypeName: UpdateColumnPlayerstatsYellowCardsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_yellow_cards
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsYellowCards
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerstatsByIdUpdateColumns
+  description: Update the columns of the 'playerstats' collection
+  fields:
+    - name: assists
+      type: UpdateColumnPlayerstatsAssists
+      description: Update the 'assists' column in the 'playerstats' collection.
+    - name: fixtureId
+      type: UpdateColumnPlayerstatsFixtureId
+      description: Update the 'fixture_id' column in the 'playerstats' collection.
+    - name: goals
+      type: UpdateColumnPlayerstatsGoals
+      description: Update the 'goals' column in the 'playerstats' collection.
+    - name: id
+      type: UpdateColumnPlayerstatsId
+      description: Update the 'id' column in the 'playerstats' collection.
+    - name: minutesPlayed
+      type: UpdateColumnPlayerstatsMinutesPlayed
+      description: Update the 'minutes_played' column in the 'playerstats' collection.
+    - name: personId
+      type: UpdateColumnPlayerstatsPersonId
+      description: Update the 'person_id' column in the 'playerstats' collection.
+    - name: rating
+      type: UpdateColumnPlayerstatsRating
+      description: Update the 'rating' column in the 'playerstats' collection.
+    - name: redCards
+      type: UpdateColumnPlayerstatsRedCards
+      description: Update the 'red_cards' column in the 'playerstats' collection.
+    - name: stats
+      type: UpdateColumnPlayerstatsStats
+      description: Update the 'stats' column in the 'playerstats' collection.
+    - name: yellowCards
+      type: UpdateColumnPlayerstatsYellowCards
+      description: Update the 'yellow_cards' column in the 'playerstats' collection.
+  graphql:
+    typeName: UpdatePlayerstatsByIdUpdateColumns
+    inputTypeName: UpdatePlayerstatsByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_playerstats_by_id_update_columns
+      fieldMapping:
+        assists:
+          column:
+            name: assists
+        fixtureId:
+          column:
+            name: fixture_id
+        goals:
+          column:
+            name: goals
+        id:
+          column:
+            name: id
+        minutesPlayed:
+          column:
+            name: minutes_played
+        personId:
+          column:
+            name: person_id
+        rating:
+          column:
+            name: rating
+        redCards:
+          column:
+            name: red_cards
+        stats:
+          column:
+            name: stats
+        yellowCards:
+          column:
+            name: yellow_cards
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerstatsByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - assists
+          - fixtureId
+          - goals
+          - id
+          - minutesPlayed
+          - personId
+          - rating
+          - redCards
+          - stats
+          - yellowCards
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerstatsByIdResponse
+  description: Responses from the 'update_playerstats_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Playerstats!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdatePlayerstatsByIdResponse
+    inputTypeName: UpdatePlayerstatsByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_playerstats_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerstatsByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdatePlayerstatsById
+  outputType: UpdatePlayerstatsByIdResponse!
+  arguments:
+    - name: keyId
+      type: Int32!
+    - name: postCheck
+      type: PlayerstatsBoolExp
+      description: Update permission post-condition predicate over the 'playerstats'
+        collection
+    - name: preCheck
+      type: PlayerstatsBoolExp
+      description: Update permission pre-condition predicate over the 'playerstats'
+        collection
+    - name: updateColumns
+      type: UpdatePlayerstatsByIdUpdateColumns!
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: update_playerstats_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updatePlayerstatsById
+    rootFieldKind: Mutation
+  description: Update any row on the 'playerstats' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdatePlayerstatsById
+  permissions:
+    - role: admin
+      allowExecution: true
+

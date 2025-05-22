@@ -42,6 +42,7 @@ definition:
           booleanExpressionType: TextBoolExp
       comparableRelationships:
         - relationshipName: teams
+        - relationshipName: fixtures
   logicalOperators:
     enable: true
   isNull:
@@ -145,4 +146,26 @@ definition:
           - fieldName: sportId
   graphql:
     aggregateFieldName: teamsAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: fixtures
+  sourceType: Sport
+  target:
+    model:
+      name: Fixtures
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: FixturesAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: sportId
+  graphql:
+    aggregateFieldName: fixturesAggregate
 

@@ -1,0 +1,208 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Results
+  fields:
+    - name: details
+      type: Jsonb
+    - name: fixtureId
+      type: Int32!
+    - name: id
+      type: Int32!
+    - name: updatedAt
+      type: Timestamp
+    - name: winnerId
+      type: Int32
+  graphql:
+    typeName: Results
+    inputTypeName: ResultsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: results
+      fieldMapping:
+        details:
+          column:
+            name: details
+        fixtureId:
+          column:
+            name: fixture_id
+        id:
+          column:
+            name: id
+        updatedAt:
+          column:
+            name: updated_at
+        winnerId:
+          column:
+            name: winner_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Results
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - details
+          - fixtureId
+          - id
+          - updatedAt
+          - winnerId
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: ResultsBoolExp
+  operand:
+    object:
+      type: Results
+      comparableFields:
+        - fieldName: details
+          booleanExpressionType: JsonbBoolExp
+        - fieldName: fixtureId
+          booleanExpressionType: Int4BoolExp
+        - fieldName: id
+          booleanExpressionType: Int4BoolExp
+        - fieldName: updatedAt
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: winnerId
+          booleanExpressionType: Int4BoolExp
+      comparableRelationships:
+        - relationshipName: fixture
+        - relationshipName: team
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: ResultsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: ResultsAggExp
+  operand:
+    object:
+      aggregatedType: Results
+      aggregatableFields:
+        - fieldName: details
+          aggregateExpression: JsonbAggExp
+        - fieldName: fixtureId
+          aggregateExpression: Int4AggExp
+        - fieldName: id
+          aggregateExpression: Int4AggExp
+        - fieldName: updatedAt
+          aggregateExpression: TimestampAggExp
+        - fieldName: winnerId
+          aggregateExpression: Int4AggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: ResultsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: ResultsOrderByExp
+  operand:
+    object:
+      orderedType: Results
+      orderableFields:
+        - fieldName: details
+          orderByExpression: JsonbOrderByExp
+        - fieldName: fixtureId
+          orderByExpression: Int32OrderByExp
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: updatedAt
+          orderByExpression: TimestampOrderByExp
+        - fieldName: winnerId
+          orderByExpression: Int32OrderByExp
+      orderableRelationships:
+        - relationshipName: fixture
+        - relationshipName: team
+  graphql:
+    expressionTypeName: ResultsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Results
+  objectType: Results
+  source:
+    dataConnectorName: mydb
+    collection: results
+  filterExpressionType: ResultsBoolExp
+  aggregateExpression: ResultsAggExp
+  orderByExpression: ResultsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: results
+      subscription:
+        rootField: results
+    selectUniques:
+      - queryRootField: resultsById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: resultsById
+    filterInputTypeName: ResultsFilterInput
+    aggregate:
+      queryRootField: resultsAggregate
+      subscription:
+        rootField: resultsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Results
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: fixture
+  sourceType: Results
+  target:
+    model:
+      name: Fixtures
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: fixtureId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: team
+  sourceType: Results
+  target:
+    model:
+      name: Teams
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: winnerId
+      target:
+        modelField:
+          - fieldName: id
+

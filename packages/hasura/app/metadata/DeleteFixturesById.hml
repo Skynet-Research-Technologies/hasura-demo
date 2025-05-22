@@ -1,0 +1,72 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteFixturesByIdResponse
+  description: Responses from the 'delete_fixtures_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Fixtures!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: DeleteFixturesByIdResponse
+    inputTypeName: DeleteFixturesByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: delete_fixtures_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteFixturesByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteFixturesById
+  outputType: DeleteFixturesByIdResponse!
+  arguments:
+    - name: keyId
+      type: Int32!
+    - name: preCheck
+      type: FixturesBoolExp
+      description: Delete permission predicate over the 'fixtures' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: delete_fixtures_by_id
+    argumentMapping:
+      keyId: key_id
+      preCheck: pre_check
+  graphql:
+    rootFieldName: deleteFixturesById
+    rootFieldKind: Mutation
+  description: Delete any row on the 'fixtures' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteFixturesById
+  permissions:
+    - role: admin
+      allowExecution: true
+

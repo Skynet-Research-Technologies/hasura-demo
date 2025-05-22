@@ -1,0 +1,416 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnFixturesAwayTeamId
+  description: Update the 'away_team_id' column in the 'fixtures' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnFixturesAwayTeamId
+    inputTypeName: UpdateColumnFixturesAwayTeamIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_fixtures_away_team_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnFixturesAwayTeamId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnFixturesCreatedAt
+  description: Update the 'created_at' column in the 'fixtures' collection
+  fields:
+    - name: set
+      type: Timestamp
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnFixturesCreatedAt
+    inputTypeName: UpdateColumnFixturesCreatedAtInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_fixtures_created_at
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnFixturesCreatedAt
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnFixturesFixtureDate
+  description: Update the 'fixture_date' column in the 'fixtures' collection
+  fields:
+    - name: set
+      type: Timestamp!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnFixturesFixtureDate
+    inputTypeName: UpdateColumnFixturesFixtureDateInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_fixtures_fixture_date
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnFixturesFixtureDate
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnFixturesHomeTeamId
+  description: Update the 'home_team_id' column in the 'fixtures' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnFixturesHomeTeamId
+    inputTypeName: UpdateColumnFixturesHomeTeamIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_fixtures_home_team_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnFixturesHomeTeamId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnFixturesId
+  description: Update the 'id' column in the 'fixtures' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnFixturesId
+    inputTypeName: UpdateColumnFixturesIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_fixtures_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnFixturesId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnFixturesSportId
+  description: Update the 'sport_id' column in the 'fixtures' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnFixturesSportId
+    inputTypeName: UpdateColumnFixturesSportIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_fixtures_sport_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnFixturesSportId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnFixturesStatus
+  description: Update the 'status' column in the 'fixtures' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnFixturesStatus
+    inputTypeName: UpdateColumnFixturesStatusInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_fixtures_status
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnFixturesStatus
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnFixturesVenue
+  description: Update the 'venue' column in the 'fixtures' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnFixturesVenue
+    inputTypeName: UpdateColumnFixturesVenueInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_fixtures_venue
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnFixturesVenue
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateFixturesByIdUpdateColumns
+  description: Update the columns of the 'fixtures' collection
+  fields:
+    - name: awayTeamId
+      type: UpdateColumnFixturesAwayTeamId
+      description: Update the 'away_team_id' column in the 'fixtures' collection.
+    - name: createdAt
+      type: UpdateColumnFixturesCreatedAt
+      description: Update the 'created_at' column in the 'fixtures' collection.
+    - name: fixtureDate
+      type: UpdateColumnFixturesFixtureDate
+      description: Update the 'fixture_date' column in the 'fixtures' collection.
+    - name: homeTeamId
+      type: UpdateColumnFixturesHomeTeamId
+      description: Update the 'home_team_id' column in the 'fixtures' collection.
+    - name: id
+      type: UpdateColumnFixturesId
+      description: Update the 'id' column in the 'fixtures' collection.
+    - name: sportId
+      type: UpdateColumnFixturesSportId
+      description: Update the 'sport_id' column in the 'fixtures' collection.
+    - name: status
+      type: UpdateColumnFixturesStatus
+      description: Update the 'status' column in the 'fixtures' collection.
+    - name: venue
+      type: UpdateColumnFixturesVenue
+      description: Update the 'venue' column in the 'fixtures' collection.
+  graphql:
+    typeName: UpdateFixturesByIdUpdateColumns
+    inputTypeName: UpdateFixturesByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_fixtures_by_id_update_columns
+      fieldMapping:
+        awayTeamId:
+          column:
+            name: away_team_id
+        createdAt:
+          column:
+            name: created_at
+        fixtureDate:
+          column:
+            name: fixture_date
+        homeTeamId:
+          column:
+            name: home_team_id
+        id:
+          column:
+            name: id
+        sportId:
+          column:
+            name: sport_id
+        status:
+          column:
+            name: status
+        venue:
+          column:
+            name: venue
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateFixturesByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - awayTeamId
+          - createdAt
+          - fixtureDate
+          - homeTeamId
+          - id
+          - sportId
+          - status
+          - venue
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateFixturesByIdResponse
+  description: Responses from the 'update_fixtures_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Fixtures!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateFixturesByIdResponse
+    inputTypeName: UpdateFixturesByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_fixtures_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateFixturesByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateFixturesById
+  outputType: UpdateFixturesByIdResponse!
+  arguments:
+    - name: keyId
+      type: Int32!
+    - name: postCheck
+      type: FixturesBoolExp
+      description: Update permission post-condition predicate over the 'fixtures' collection
+    - name: preCheck
+      type: FixturesBoolExp
+      description: Update permission pre-condition predicate over the 'fixtures' collection
+    - name: updateColumns
+      type: UpdateFixturesByIdUpdateColumns!
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: update_fixtures_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateFixturesById
+    rootFieldKind: Mutation
+  description: Update any row on the 'fixtures' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateFixturesById
+  permissions:
+    - role: admin
+      allowExecution: true
+

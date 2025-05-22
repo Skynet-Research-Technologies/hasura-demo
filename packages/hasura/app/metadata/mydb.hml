@@ -227,6 +227,53 @@ definition:
               argument_type:
                 name: int8
                 type: named
+        jsonb:
+          aggregate_functions: {}
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                name: jsonb
+                type: named
+            _gte:
+              type: custom
+              argument_type:
+                name: jsonb
+                type: named
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                name: jsonb
+                type: named
+            _lte:
+              type: custom
+              argument_type:
+                name: jsonb
+                type: named
+            _neq:
+              type: custom
+              argument_type:
+                name: jsonb
+                type: named
+            jsonb_contained:
+              type: custom
+              argument_type:
+                name: jsonb
+                type: named
+            jsonb_contains:
+              type: custom
+              argument_type:
+                name: jsonb
+                type: named
+            jsonb_exists:
+              type: custom
+              argument_type:
+                name: text
+                type: named
         numeric:
           representation:
             type: bigdecimal
@@ -417,7 +464,68 @@ definition:
               argument_type:
                 name: text
                 type: named
+        timestamp:
+          representation:
+            type: timestamp
+          aggregate_functions:
+            max:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            min:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                name: timestamp
+                type: named
+            _gte:
+              type: custom
+              argument_type:
+                name: timestamp
+                type: named
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                name: timestamp
+                type: named
+            _lte:
+              type: custom
+              argument_type:
+                name: timestamp
+                type: named
+            _neq:
+              type: custom
+              argument_type:
+                name: timestamp
+                type: named
       object_types:
+        delete_fixtures_by_id_response:
+          description: Responses from the 'delete_fixtures_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: fixtures
+                  type: named
+                type: array
         delete_people_by_id_response:
           description: Responses from the 'delete_people_by_id' procedure
           fields:
@@ -431,6 +539,36 @@ definition:
               type:
                 element_type:
                   name: people
+                  type: named
+                type: array
+        delete_playerstats_by_id_response:
+          description: Responses from the 'delete_playerstats_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: playerstats
+                  type: named
+                type: array
+        delete_results_by_id_response:
+          description: Responses from the 'delete_results_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: results
                   type: named
                 type: array
         delete_sport_by_id_response:
@@ -461,6 +599,103 @@ definition:
               type:
                 element_type:
                   name: teams
+                  type: named
+                type: array
+        fixtures:
+          fields:
+            away_team_id:
+              type:
+                name: int4
+                type: named
+            created_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            fixture_date:
+              type:
+                name: timestamp
+                type: named
+            home_team_id:
+              type:
+                name: int4
+                type: named
+            id:
+              type:
+                name: int4
+                type: named
+            sport_id:
+              type:
+                name: int4
+                type: named
+            status:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            venue:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+        insert_fixtures_object:
+          fields:
+            away_team_id:
+              type:
+                name: int4
+                type: named
+            created_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            fixture_date:
+              type:
+                name: timestamp
+                type: named
+            home_team_id:
+              type:
+                name: int4
+                type: named
+            id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            sport_id:
+              type:
+                name: int4
+                type: named
+            status:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            venue:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+        insert_fixtures_response:
+          description: Responses from the 'insert_fixtures' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: fixtures
                   type: named
                 type: array
         insert_people_object:
@@ -494,6 +729,124 @@ definition:
               type:
                 element_type:
                   name: people
+                  type: named
+                type: array
+        insert_playerstats_object:
+          fields:
+            assists:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            fixture_id:
+              type:
+                name: int4
+                type: named
+            goals:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            minutes_played:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            person_id:
+              type:
+                name: int4
+                type: named
+            rating:
+              type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+            red_cards:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            stats:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            yellow_cards:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        insert_playerstats_response:
+          description: Responses from the 'insert_playerstats' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: playerstats
+                  type: named
+                type: array
+        insert_results_object:
+          fields:
+            details:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            fixture_id:
+              type:
+                name: int4
+                type: named
+            id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            updated_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            winner_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        insert_results_response:
+          description: Responses from the 'insert_results' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: results
                   type: named
                 type: array
         insert_sport_object:
@@ -572,6 +925,90 @@ definition:
                 underlying_type:
                   name: int4
                   type: named
+        playerstats:
+          fields:
+            assists:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            fixture_id:
+              type:
+                name: int4
+                type: named
+            goals:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            id:
+              type:
+                name: int4
+                type: named
+            minutes_played:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            person_id:
+              type:
+                name: int4
+                type: named
+            rating:
+              type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+            red_cards:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            stats:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            yellow_cards:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        results:
+          fields:
+            details:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            fixture_id:
+              type:
+                name: int4
+                type: named
+            id:
+              type:
+                name: int4
+                type: named
+            updated_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            winner_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
         sport:
           fields:
             id:
@@ -598,6 +1035,76 @@ definition:
                 underlying_type:
                   name: int4
                   type: named
+        update_column_fixtures_away_team_id:
+          description: Update the 'away_team_id' column in the 'fixtures' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_fixtures_created_at:
+          description: Update the 'created_at' column in the 'fixtures' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+        update_column_fixtures_fixture_date:
+          description: Update the 'fixture_date' column in the 'fixtures' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+        update_column_fixtures_home_team_id:
+          description: Update the 'home_team_id' column in the 'fixtures' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_fixtures_id:
+          description: Update the 'id' column in the 'fixtures' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_fixtures_sport_id:
+          description: Update the 'sport_id' column in the 'fixtures' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_fixtures_status:
+          description: Update the 'status' column in the 'fixtures' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+        update_column_fixtures_venue:
+          description: Update the 'venue' column in the 'fixtures' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
         update_column_people_id:
           description: Update the 'id' column in the 'people' collection
           fields:
@@ -616,6 +1123,146 @@ definition:
                 type: named
         update_column_people_team_id:
           description: Update the 'team_id' column in the 'people' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        update_column_playerstats_assists:
+          description: Update the 'assists' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        update_column_playerstats_fixture_id:
+          description: Update the 'fixture_id' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_playerstats_goals:
+          description: Update the 'goals' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        update_column_playerstats_id:
+          description: Update the 'id' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_playerstats_minutes_played:
+          description: Update the 'minutes_played' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        update_column_playerstats_person_id:
+          description: Update the 'person_id' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_playerstats_rating:
+          description: Update the 'rating' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+        update_column_playerstats_red_cards:
+          description: Update the 'red_cards' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        update_column_playerstats_stats:
+          description: Update the 'stats' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+        update_column_playerstats_yellow_cards:
+          description: Update the 'yellow_cards' column in the 'playerstats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        update_column_results_details:
+          description: Update the 'details' column in the 'results' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+        update_column_results_fixture_id:
+          description: Update the 'fixture_id' column in the 'results' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_results_id:
+          description: Update the 'id' column in the 'results' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_results_updated_at:
+          description: Update the 'updated_at' column in the 'results' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+        update_column_results_winner_id:
+          description: Update the 'winner_id' column in the 'results' collection
           fields:
             _set:
               description: Set the column to this value
@@ -666,6 +1313,80 @@ definition:
                 underlying_type:
                   name: int4
                   type: named
+        update_fixtures_by_id_response:
+          description: Responses from the 'update_fixtures_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: fixtures
+                  type: named
+                type: array
+        update_fixtures_by_id_update_columns:
+          description: Update the columns of the 'fixtures' collection
+          fields:
+            away_team_id:
+              description: Update the 'away_team_id' column in the 'fixtures' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_fixtures_away_team_id
+                  type: named
+            created_at:
+              description: Update the 'created_at' column in the 'fixtures' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_fixtures_created_at
+                  type: named
+            fixture_date:
+              description: Update the 'fixture_date' column in the 'fixtures' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_fixtures_fixture_date
+                  type: named
+            home_team_id:
+              description: Update the 'home_team_id' column in the 'fixtures' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_fixtures_home_team_id
+                  type: named
+            id:
+              description: Update the 'id' column in the 'fixtures' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_fixtures_id
+                  type: named
+            sport_id:
+              description: Update the 'sport_id' column in the 'fixtures' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_fixtures_sport_id
+                  type: named
+            status:
+              description: Update the 'status' column in the 'fixtures' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_fixtures_status
+                  type: named
+            venue:
+              description: Update the 'venue' column in the 'fixtures' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_fixtures_venue
+                  type: named
         update_people_by_id_response:
           description: Responses from the 'update_people_by_id' procedure
           fields:
@@ -704,6 +1425,147 @@ definition:
                 type: nullable
                 underlying_type:
                   name: update_column_people_team_id
+                  type: named
+        update_playerstats_by_id_response:
+          description: Responses from the 'update_playerstats_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: playerstats
+                  type: named
+                type: array
+        update_playerstats_by_id_update_columns:
+          description: Update the columns of the 'playerstats' collection
+          fields:
+            assists:
+              description: Update the 'assists' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_assists
+                  type: named
+            fixture_id:
+              description: Update the 'fixture_id' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_fixture_id
+                  type: named
+            goals:
+              description: Update the 'goals' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_goals
+                  type: named
+            id:
+              description: Update the 'id' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_id
+                  type: named
+            minutes_played:
+              description: Update the 'minutes_played' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_minutes_played
+                  type: named
+            person_id:
+              description: Update the 'person_id' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_person_id
+                  type: named
+            rating:
+              description: Update the 'rating' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_rating
+                  type: named
+            red_cards:
+              description: Update the 'red_cards' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_red_cards
+                  type: named
+            stats:
+              description: Update the 'stats' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_stats
+                  type: named
+            yellow_cards:
+              description: Update the 'yellow_cards' column in the 'playerstats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_playerstats_yellow_cards
+                  type: named
+        update_results_by_id_response:
+          description: Responses from the 'update_results_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: results
+                  type: named
+                type: array
+        update_results_by_id_update_columns:
+          description: Update the columns of the 'results' collection
+          fields:
+            details:
+              description: Update the 'details' column in the 'results' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_results_details
+                  type: named
+            fixture_id:
+              description: Update the 'fixture_id' column in the 'results' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_results_fixture_id
+                  type: named
+            id:
+              description: Update the 'id' column in the 'results' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_results_id
+                  type: named
+            updated_at:
+              description: Update the 'updated_at' column in the 'results' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_results_updated_at
+                  type: named
+            winner_id:
+              description: Update the 'winner_id' column in the 'results' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_results_winner_id
                   type: named
         update_sport_by_id_response:
           description: Responses from the 'update_sport_by_id' procedure
@@ -777,6 +1639,26 @@ definition:
                   name: update_column_teams_sport_id
                   type: named
       collections:
+        - name: fixtures
+          arguments: {}
+          type: fixtures
+          uniqueness_constraints:
+            fixtures_pkey:
+              unique_columns:
+                - id
+          foreign_keys:
+            fixtures_away_team_id_fkey:
+              column_mapping:
+                away_team_id: id
+              foreign_collection: teams
+            fixtures_home_team_id_fkey:
+              column_mapping:
+                home_team_id: id
+              foreign_collection: teams
+            fixtures_sport_id_fkey:
+              column_mapping:
+                sport_id: id
+              foreign_collection: sport
         - name: people
           arguments: {}
           type: people
@@ -788,6 +1670,38 @@ definition:
             people_team_id_fkey:
               column_mapping:
                 team_id: id
+              foreign_collection: teams
+        - name: playerstats
+          arguments: {}
+          type: playerstats
+          uniqueness_constraints:
+            playerstats_pkey:
+              unique_columns:
+                - id
+          foreign_keys:
+            playerstats_fixture_id_fkey:
+              column_mapping:
+                fixture_id: id
+              foreign_collection: fixtures
+            playerstats_person_id_fkey:
+              column_mapping:
+                person_id: id
+              foreign_collection: people
+        - name: results
+          arguments: {}
+          type: results
+          uniqueness_constraints:
+            results_pkey:
+              unique_columns:
+                - id
+          foreign_keys:
+            results_fixture_id_fkey:
+              column_mapping:
+                fixture_id: id
+              foreign_collection: fixtures
+            results_winner_id_fkey:
+              column_mapping:
+                winner_id: id
               foreign_collection: teams
         - name: sport
           arguments: {}
@@ -811,6 +1725,23 @@ definition:
               foreign_collection: sport
       functions: []
       procedures:
+        - name: delete_fixtures_by_id
+          description: Delete any row on the 'fixtures' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: int4
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'fixtures' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: fixtures
+                  type: predicate
+          result_type:
+            name: delete_fixtures_by_id_response
+            type: named
         - name: delete_people_by_id
           description: Delete any row on the 'people' collection using the 'id' key
           arguments:
@@ -827,6 +1758,40 @@ definition:
                   type: predicate
           result_type:
             name: delete_people_by_id_response
+            type: named
+        - name: delete_playerstats_by_id
+          description: Delete any row on the 'playerstats' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: int4
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'playerstats' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: playerstats
+                  type: predicate
+          result_type:
+            name: delete_playerstats_by_id_response
+            type: named
+        - name: delete_results_by_id
+          description: Delete any row on the 'results' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: int4
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'results' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: results
+                  type: predicate
+          result_type:
+            name: delete_results_by_id_response
             type: named
         - name: delete_sport_by_id
           description: Delete any row on the 'sport' collection using the 'id' key
@@ -862,6 +1827,25 @@ definition:
           result_type:
             name: delete_teams_by_id_response
             type: named
+        - name: insert_fixtures
+          description: Insert into the fixtures table
+          arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_fixtures_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'fixtures' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: fixtures
+                  type: predicate
+          result_type:
+            name: insert_fixtures_response
+            type: named
         - name: insert_people
           description: Insert into the people table
           arguments:
@@ -880,6 +1864,44 @@ definition:
                   type: predicate
           result_type:
             name: insert_people_response
+            type: named
+        - name: insert_playerstats
+          description: Insert into the playerstats table
+          arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_playerstats_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'playerstats' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: playerstats
+                  type: predicate
+          result_type:
+            name: insert_playerstats_response
+            type: named
+        - name: insert_results
+          description: Insert into the results table
+          arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_results_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'results' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: results
+                  type: predicate
+          result_type:
+            name: insert_results_response
             type: named
         - name: insert_sport
           description: Insert into the sport table
@@ -919,6 +1941,34 @@ definition:
           result_type:
             name: insert_teams_response
             type: named
+        - name: update_fixtures_by_id
+          description: Update any row on the 'fixtures' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: int4
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'fixtures' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: fixtures
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'fixtures' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: fixtures
+                  type: predicate
+            update_columns:
+              type:
+                name: update_fixtures_by_id_update_columns
+                type: named
+          result_type:
+            name: update_fixtures_by_id_response
+            type: named
         - name: update_people_by_id
           description: Update any row on the 'people' collection using the 'id' key
           arguments:
@@ -946,6 +1996,62 @@ definition:
                 type: named
           result_type:
             name: update_people_by_id_response
+            type: named
+        - name: update_playerstats_by_id
+          description: Update any row on the 'playerstats' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: int4
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'playerstats' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: playerstats
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'playerstats' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: playerstats
+                  type: predicate
+            update_columns:
+              type:
+                name: update_playerstats_by_id_update_columns
+                type: named
+          result_type:
+            name: update_playerstats_by_id_response
+            type: named
+        - name: update_results_by_id
+          description: Update any row on the 'results' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: int4
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'results' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: results
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'results' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: results
+                  type: predicate
+            update_columns:
+              type:
+                name: update_results_by_id_update_columns
+                type: named
+          result_type:
+            name: update_results_by_id_response
             type: named
         - name: update_sport_by_id
           description: Update any row on the 'sport' collection using the 'id' key

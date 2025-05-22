@@ -1,0 +1,310 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Fixtures
+  fields:
+    - name: awayTeamId
+      type: Int32!
+    - name: createdAt
+      type: Timestamp
+    - name: fixtureDate
+      type: Timestamp!
+    - name: homeTeamId
+      type: Int32!
+    - name: id
+      type: Int32!
+    - name: sportId
+      type: Int32!
+    - name: status
+      type: String_1
+    - name: venue
+      type: String_1
+  graphql:
+    typeName: Fixtures
+    inputTypeName: FixturesInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: fixtures
+      fieldMapping:
+        awayTeamId:
+          column:
+            name: away_team_id
+        createdAt:
+          column:
+            name: created_at
+        fixtureDate:
+          column:
+            name: fixture_date
+        homeTeamId:
+          column:
+            name: home_team_id
+        id:
+          column:
+            name: id
+        sportId:
+          column:
+            name: sport_id
+        status:
+          column:
+            name: status
+        venue:
+          column:
+            name: venue
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Fixtures
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - awayTeamId
+          - createdAt
+          - fixtureDate
+          - homeTeamId
+          - id
+          - sportId
+          - status
+          - venue
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: FixturesBoolExp
+  operand:
+    object:
+      type: Fixtures
+      comparableFields:
+        - fieldName: awayTeamId
+          booleanExpressionType: Int4BoolExp
+        - fieldName: createdAt
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: fixtureDate
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: homeTeamId
+          booleanExpressionType: Int4BoolExp
+        - fieldName: id
+          booleanExpressionType: Int4BoolExp
+        - fieldName: sportId
+          booleanExpressionType: Int4BoolExp
+        - fieldName: status
+          booleanExpressionType: TextBoolExp
+        - fieldName: venue
+          booleanExpressionType: TextBoolExp
+      comparableRelationships:
+        - relationshipName: team
+        - relationshipName: teamByHomeTeamId
+        - relationshipName: sport
+        - relationshipName: playerstats
+        - relationshipName: results
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: FixturesBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: FixturesAggExp
+  operand:
+    object:
+      aggregatedType: Fixtures
+      aggregatableFields:
+        - fieldName: awayTeamId
+          aggregateExpression: Int4AggExp
+        - fieldName: createdAt
+          aggregateExpression: TimestampAggExp
+        - fieldName: fixtureDate
+          aggregateExpression: TimestampAggExp
+        - fieldName: homeTeamId
+          aggregateExpression: Int4AggExp
+        - fieldName: id
+          aggregateExpression: Int4AggExp
+        - fieldName: sportId
+          aggregateExpression: Int4AggExp
+        - fieldName: status
+          aggregateExpression: TextAggExp
+        - fieldName: venue
+          aggregateExpression: TextAggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: FixturesAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: FixturesOrderByExp
+  operand:
+    object:
+      orderedType: Fixtures
+      orderableFields:
+        - fieldName: awayTeamId
+          orderByExpression: Int32OrderByExp
+        - fieldName: createdAt
+          orderByExpression: TimestampOrderByExp
+        - fieldName: fixtureDate
+          orderByExpression: TimestampOrderByExp
+        - fieldName: homeTeamId
+          orderByExpression: Int32OrderByExp
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: sportId
+          orderByExpression: Int32OrderByExp
+        - fieldName: status
+          orderByExpression: String1OrderByExp
+        - fieldName: venue
+          orderByExpression: String1OrderByExp
+      orderableRelationships:
+        - relationshipName: team
+        - relationshipName: teamByHomeTeamId
+        - relationshipName: sport
+  graphql:
+    expressionTypeName: FixturesOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Fixtures
+  objectType: Fixtures
+  source:
+    dataConnectorName: mydb
+    collection: fixtures
+  filterExpressionType: FixturesBoolExp
+  aggregateExpression: FixturesAggExp
+  orderByExpression: FixturesOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: fixtures
+      subscription:
+        rootField: fixtures
+    selectUniques:
+      - queryRootField: fixturesById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: fixturesById
+    filterInputTypeName: FixturesFilterInput
+    aggregate:
+      queryRootField: fixturesAggregate
+      subscription:
+        rootField: fixturesAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Fixtures
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: team
+  sourceType: Fixtures
+  target:
+    model:
+      name: Teams
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: awayTeamId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: teamByHomeTeamId
+  sourceType: Fixtures
+  target:
+    model:
+      name: Teams
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: homeTeamId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: sport
+  sourceType: Fixtures
+  target:
+    model:
+      name: Sport
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: sportId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: playerstats
+  sourceType: Fixtures
+  target:
+    model:
+      name: Playerstats
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: PlayerstatsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: fixtureId
+  graphql:
+    aggregateFieldName: playerstatsAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: results
+  sourceType: Fixtures
+  target:
+    model:
+      name: Results
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: ResultsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: fixtureId
+  graphql:
+    aggregateFieldName: resultsAggregate
+

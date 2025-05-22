@@ -16,6 +16,107 @@
   },
   "metadata": {
     "tables": {
+      "fixtures": {
+        "schemaName": "public",
+        "tableName": "fixtures",
+        "columns": {
+          "away_team_id": {
+            "name": "away_team_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "created_at": {
+            "name": "created_at",
+            "type": {
+              "scalarType": "timestamp"
+            },
+            "nullable": "nullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "fixture_date": {
+            "name": "fixture_date",
+            "type": {
+              "scalarType": "timestamp"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "home_team_id": {
+            "name": "home_team_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "id": {
+            "name": "id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "sport_id": {
+            "name": "sport_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "status": {
+            "name": "status",
+            "type": {
+              "scalarType": "text"
+            },
+            "nullable": "nullable",
+            "description": null
+          },
+          "venue": {
+            "name": "venue",
+            "type": {
+              "scalarType": "text"
+            },
+            "nullable": "nullable",
+            "description": null
+          }
+        },
+        "uniquenessConstraints": {
+          "fixtures_pkey": [
+            "id"
+          ]
+        },
+        "foreignRelations": {
+          "fixtures_away_team_id_fkey": {
+            "foreignSchema": "public",
+            "foreignTable": "teams",
+            "columnMapping": {
+              "away_team_id": "id"
+            }
+          },
+          "fixtures_home_team_id_fkey": {
+            "foreignSchema": "public",
+            "foreignTable": "teams",
+            "columnMapping": {
+              "home_team_id": "id"
+            }
+          },
+          "fixtures_sport_id_fkey": {
+            "foreignSchema": "public",
+            "foreignTable": "sport",
+            "columnMapping": {
+              "sport_id": "id"
+            }
+          }
+        },
+        "description": null
+      },
       "people": {
         "schemaName": "public",
         "tableName": "people",
@@ -57,6 +158,189 @@
             "foreignTable": "teams",
             "columnMapping": {
               "team_id": "id"
+            }
+          }
+        },
+        "description": null
+      },
+      "playerstats": {
+        "schemaName": "public",
+        "tableName": "playerstats",
+        "columns": {
+          "assists": {
+            "name": "assists",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "fixture_id": {
+            "name": "fixture_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "goals": {
+            "name": "goals",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "id": {
+            "name": "id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "minutes_played": {
+            "name": "minutes_played",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nullable",
+            "description": null
+          },
+          "person_id": {
+            "name": "person_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "rating": {
+            "name": "rating",
+            "type": {
+              "scalarType": "numeric"
+            },
+            "nullable": "nullable",
+            "description": null
+          },
+          "red_cards": {
+            "name": "red_cards",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "stats": {
+            "name": "stats",
+            "type": {
+              "scalarType": "jsonb"
+            },
+            "nullable": "nullable",
+            "description": null
+          },
+          "yellow_cards": {
+            "name": "yellow_cards",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          }
+        },
+        "uniquenessConstraints": {
+          "playerstats_pkey": [
+            "id"
+          ]
+        },
+        "foreignRelations": {
+          "playerstats_fixture_id_fkey": {
+            "foreignSchema": "public",
+            "foreignTable": "fixtures",
+            "columnMapping": {
+              "fixture_id": "id"
+            }
+          },
+          "playerstats_person_id_fkey": {
+            "foreignSchema": "public",
+            "foreignTable": "people",
+            "columnMapping": {
+              "person_id": "id"
+            }
+          }
+        },
+        "description": null
+      },
+      "results": {
+        "schemaName": "public",
+        "tableName": "results",
+        "columns": {
+          "details": {
+            "name": "details",
+            "type": {
+              "scalarType": "jsonb"
+            },
+            "nullable": "nullable",
+            "description": null
+          },
+          "fixture_id": {
+            "name": "fixture_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "id": {
+            "name": "id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "updated_at": {
+            "name": "updated_at",
+            "type": {
+              "scalarType": "timestamp"
+            },
+            "nullable": "nullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "winner_id": {
+            "name": "winner_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nullable",
+            "description": null
+          }
+        },
+        "uniquenessConstraints": {
+          "results_pkey": [
+            "id"
+          ]
+        },
+        "foreignRelations": {
+          "results_fixture_id_fkey": {
+            "foreignSchema": "public",
+            "foreignTable": "fixtures",
+            "columnMapping": {
+              "fixture_id": "id"
+            }
+          },
+          "results_winner_id_fkey": {
+            "foreignSchema": "public",
+            "foreignTable": "teams",
+            "columnMapping": {
+              "winner_id": "id"
             }
           }
         },
@@ -317,6 +601,75 @@
           },
           "typeRepresentation": "int64AsString"
         },
+        "jsonb": {
+          "typeName": "jsonb",
+          "schemaName": "pg_catalog",
+          "description": null,
+          "aggregateFunctions": {},
+          "comparisonOperators": {
+            "_eq": {
+              "operatorName": "=",
+              "operatorKind": "equal",
+              "argumentType": "jsonb",
+              "isInfix": true
+            },
+            "_gt": {
+              "operatorName": ">",
+              "operatorKind": "custom",
+              "argumentType": "jsonb",
+              "isInfix": true
+            },
+            "_gte": {
+              "operatorName": ">=",
+              "operatorKind": "custom",
+              "argumentType": "jsonb",
+              "isInfix": true
+            },
+            "_in": {
+              "operatorName": "IN",
+              "operatorKind": "in",
+              "argumentType": "jsonb",
+              "isInfix": true
+            },
+            "_lt": {
+              "operatorName": "<",
+              "operatorKind": "custom",
+              "argumentType": "jsonb",
+              "isInfix": true
+            },
+            "_lte": {
+              "operatorName": "<=",
+              "operatorKind": "custom",
+              "argumentType": "jsonb",
+              "isInfix": true
+            },
+            "_neq": {
+              "operatorName": "<>",
+              "operatorKind": "custom",
+              "argumentType": "jsonb",
+              "isInfix": true
+            },
+            "jsonb_contained": {
+              "operatorName": "jsonb_contained",
+              "operatorKind": "custom",
+              "argumentType": "jsonb",
+              "isInfix": false
+            },
+            "jsonb_contains": {
+              "operatorName": "jsonb_contains",
+              "operatorKind": "custom",
+              "argumentType": "jsonb",
+              "isInfix": false
+            },
+            "jsonb_exists": {
+              "operatorName": "jsonb_exists",
+              "operatorKind": "custom",
+              "argumentType": "text",
+              "isInfix": false
+            }
+          },
+          "typeRepresentation": null
+        },
         "numeric": {
           "typeName": "numeric",
           "schemaName": "pg_catalog",
@@ -516,6 +869,64 @@
             }
           },
           "typeRepresentation": "string"
+        },
+        "timestamp": {
+          "typeName": "timestamp",
+          "schemaName": "pg_catalog",
+          "description": null,
+          "aggregateFunctions": {
+            "max": {
+              "returnType": "timestamp"
+            },
+            "min": {
+              "returnType": "timestamp"
+            }
+          },
+          "comparisonOperators": {
+            "_eq": {
+              "operatorName": "=",
+              "operatorKind": "equal",
+              "argumentType": "timestamp",
+              "isInfix": true
+            },
+            "_gt": {
+              "operatorName": ">",
+              "operatorKind": "custom",
+              "argumentType": "timestamp",
+              "isInfix": true
+            },
+            "_gte": {
+              "operatorName": ">=",
+              "operatorKind": "custom",
+              "argumentType": "timestamp",
+              "isInfix": true
+            },
+            "_in": {
+              "operatorName": "IN",
+              "operatorKind": "in",
+              "argumentType": "timestamp",
+              "isInfix": true
+            },
+            "_lt": {
+              "operatorName": "<",
+              "operatorKind": "custom",
+              "argumentType": "timestamp",
+              "isInfix": true
+            },
+            "_lte": {
+              "operatorName": "<=",
+              "operatorKind": "custom",
+              "argumentType": "timestamp",
+              "isInfix": true
+            },
+            "_neq": {
+              "operatorName": "<>",
+              "operatorKind": "custom",
+              "argumentType": "timestamp",
+              "isInfix": true
+            }
+          },
+          "typeRepresentation": "timestamp"
         }
       },
       "composite": {}

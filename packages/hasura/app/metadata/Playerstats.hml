@@ -1,0 +1,268 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Playerstats
+  fields:
+    - name: assists
+      type: Int32
+    - name: fixtureId
+      type: Int32!
+    - name: goals
+      type: Int32
+    - name: id
+      type: Int32!
+    - name: minutesPlayed
+      type: Int32
+    - name: personId
+      type: Int32!
+    - name: rating
+      type: Bigdecimal
+    - name: redCards
+      type: Int32
+    - name: stats
+      type: Jsonb
+    - name: yellowCards
+      type: Int32
+  graphql:
+    typeName: Playerstats
+    inputTypeName: PlayerstatsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: playerstats
+      fieldMapping:
+        assists:
+          column:
+            name: assists
+        fixtureId:
+          column:
+            name: fixture_id
+        goals:
+          column:
+            name: goals
+        id:
+          column:
+            name: id
+        minutesPlayed:
+          column:
+            name: minutes_played
+        personId:
+          column:
+            name: person_id
+        rating:
+          column:
+            name: rating
+        redCards:
+          column:
+            name: red_cards
+        stats:
+          column:
+            name: stats
+        yellowCards:
+          column:
+            name: yellow_cards
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Playerstats
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - assists
+          - fixtureId
+          - goals
+          - id
+          - minutesPlayed
+          - personId
+          - rating
+          - redCards
+          - stats
+          - yellowCards
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: PlayerstatsBoolExp
+  operand:
+    object:
+      type: Playerstats
+      comparableFields:
+        - fieldName: assists
+          booleanExpressionType: Int4BoolExp
+        - fieldName: fixtureId
+          booleanExpressionType: Int4BoolExp
+        - fieldName: goals
+          booleanExpressionType: Int4BoolExp
+        - fieldName: id
+          booleanExpressionType: Int4BoolExp
+        - fieldName: minutesPlayed
+          booleanExpressionType: Int4BoolExp
+        - fieldName: personId
+          booleanExpressionType: Int4BoolExp
+        - fieldName: rating
+          booleanExpressionType: NumericBoolExp
+        - fieldName: redCards
+          booleanExpressionType: Int4BoolExp
+        - fieldName: stats
+          booleanExpressionType: JsonbBoolExp
+        - fieldName: yellowCards
+          booleanExpressionType: Int4BoolExp
+      comparableRelationships:
+        - relationshipName: fixture
+        - relationshipName: person
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: PlayerstatsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: PlayerstatsAggExp
+  operand:
+    object:
+      aggregatedType: Playerstats
+      aggregatableFields:
+        - fieldName: assists
+          aggregateExpression: Int4AggExp
+        - fieldName: fixtureId
+          aggregateExpression: Int4AggExp
+        - fieldName: goals
+          aggregateExpression: Int4AggExp
+        - fieldName: id
+          aggregateExpression: Int4AggExp
+        - fieldName: minutesPlayed
+          aggregateExpression: Int4AggExp
+        - fieldName: personId
+          aggregateExpression: Int4AggExp
+        - fieldName: rating
+          aggregateExpression: NumericAggExp
+        - fieldName: redCards
+          aggregateExpression: Int4AggExp
+        - fieldName: stats
+          aggregateExpression: JsonbAggExp
+        - fieldName: yellowCards
+          aggregateExpression: Int4AggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: PlayerstatsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: PlayerstatsOrderByExp
+  operand:
+    object:
+      orderedType: Playerstats
+      orderableFields:
+        - fieldName: assists
+          orderByExpression: Int32OrderByExp
+        - fieldName: fixtureId
+          orderByExpression: Int32OrderByExp
+        - fieldName: goals
+          orderByExpression: Int32OrderByExp
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: minutesPlayed
+          orderByExpression: Int32OrderByExp
+        - fieldName: personId
+          orderByExpression: Int32OrderByExp
+        - fieldName: rating
+          orderByExpression: BigdecimalOrderByExp
+        - fieldName: redCards
+          orderByExpression: Int32OrderByExp
+        - fieldName: stats
+          orderByExpression: JsonbOrderByExp
+        - fieldName: yellowCards
+          orderByExpression: Int32OrderByExp
+      orderableRelationships:
+        - relationshipName: fixture
+        - relationshipName: person
+  graphql:
+    expressionTypeName: PlayerstatsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Playerstats
+  objectType: Playerstats
+  source:
+    dataConnectorName: mydb
+    collection: playerstats
+  filterExpressionType: PlayerstatsBoolExp
+  aggregateExpression: PlayerstatsAggExp
+  orderByExpression: PlayerstatsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: playerstats
+      subscription:
+        rootField: playerstats
+    selectUniques:
+      - queryRootField: playerstatsById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: playerstatsById
+    filterInputTypeName: PlayerstatsFilterInput
+    aggregate:
+      queryRootField: playerstatsAggregate
+      subscription:
+        rootField: playerstatsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Playerstats
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: fixture
+  sourceType: Playerstats
+  target:
+    model:
+      name: Fixtures
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: fixtureId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: person
+  sourceType: Playerstats
+  target:
+    model:
+      name: People
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: personId
+      target:
+        modelField:
+          - fieldName: id
+

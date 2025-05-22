@@ -1,0 +1,72 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteResultsByIdResponse
+  description: Responses from the 'delete_results_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Results!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: DeleteResultsByIdResponse
+    inputTypeName: DeleteResultsByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: delete_results_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteResultsByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteResultsById
+  outputType: DeleteResultsByIdResponse!
+  arguments:
+    - name: keyId
+      type: Int32!
+    - name: preCheck
+      type: ResultsBoolExp
+      description: Delete permission predicate over the 'results' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: delete_results_by_id
+    argumentMapping:
+      keyId: key_id
+      preCheck: pre_check
+  graphql:
+    rootFieldName: deleteResultsById
+    rootFieldKind: Mutation
+  description: Delete any row on the 'results' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteResultsById
+  permissions:
+    - role: admin
+      allowExecution: true
+

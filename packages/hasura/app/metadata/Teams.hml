@@ -58,6 +58,9 @@ definition:
       comparableRelationships:
         - relationshipName: people
         - relationshipName: sport
+        - relationshipName: fixtures
+        - relationshipName: fixturesByHomeTeamId
+        - relationshipName: results
   logicalOperators:
     enable: true
   isNull:
@@ -184,4 +187,70 @@ definition:
       target:
         modelField:
           - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: fixtures
+  sourceType: Teams
+  target:
+    model:
+      name: Fixtures
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: FixturesAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: awayTeamId
+  graphql:
+    aggregateFieldName: fixturesAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: fixturesByHomeTeamId
+  sourceType: Teams
+  target:
+    model:
+      name: Fixtures
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: FixturesAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: homeTeamId
+  graphql:
+    aggregateFieldName: fixturesByHomeTeamIdAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: results
+  sourceType: Teams
+  target:
+    model:
+      name: Results
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: ResultsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: winnerId
+  graphql:
+    aggregateFieldName: resultsAggregate
 

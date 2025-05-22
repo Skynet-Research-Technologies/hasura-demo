@@ -1,0 +1,156 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertPlayerstatsObject
+  fields:
+    - name: assists
+      type: Int32
+    - name: fixtureId
+      type: Int32!
+    - name: goals
+      type: Int32
+    - name: id
+      type: Int32
+    - name: minutesPlayed
+      type: Int32
+    - name: personId
+      type: Int32!
+    - name: rating
+      type: Bigdecimal
+    - name: redCards
+      type: Int32
+    - name: stats
+      type: Jsonb
+    - name: yellowCards
+      type: Int32
+  graphql:
+    typeName: InsertPlayerstatsObject
+    inputTypeName: InsertPlayerstatsObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_playerstats_object
+      fieldMapping:
+        assists:
+          column:
+            name: assists
+        fixtureId:
+          column:
+            name: fixture_id
+        goals:
+          column:
+            name: goals
+        id:
+          column:
+            name: id
+        minutesPlayed:
+          column:
+            name: minutes_played
+        personId:
+          column:
+            name: person_id
+        rating:
+          column:
+            name: rating
+        redCards:
+          column:
+            name: red_cards
+        stats:
+          column:
+            name: stats
+        yellowCards:
+          column:
+            name: yellow_cards
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertPlayerstatsObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - assists
+          - fixtureId
+          - goals
+          - id
+          - minutesPlayed
+          - personId
+          - rating
+          - redCards
+          - stats
+          - yellowCards
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertPlayerstatsResponse
+  description: Responses from the 'insert_playerstats' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Playerstats!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertPlayerstatsResponse
+    inputTypeName: InsertPlayerstatsResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_playerstats_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertPlayerstatsResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertPlayerstats
+  outputType: InsertPlayerstatsResponse!
+  arguments:
+    - name: objects
+      type: "[InsertPlayerstatsObject!]!"
+    - name: postCheck
+      type: PlayerstatsBoolExp
+      description: Insert permission predicate over the 'playerstats' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: insert_playerstats
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertPlayerstats
+    rootFieldKind: Mutation
+  description: Insert into the playerstats table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertPlayerstats
+  permissions:
+    - role: admin
+      allowExecution: true
+
