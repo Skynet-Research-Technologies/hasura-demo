@@ -1,0 +1,180 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerstatsByFixtureIdAndPersonIdUpdateColumns
+  description: Update the columns of the 'playerstats' collection
+  fields:
+    - name: assists
+      type: UpdateColumnPlayerstatsAssists
+      description: Update the 'assists' column in the 'playerstats' collection.
+    - name: fixtureId
+      type: UpdateColumnPlayerstatsFixtureId
+      description: Update the 'fixture_id' column in the 'playerstats' collection.
+    - name: goals
+      type: UpdateColumnPlayerstatsGoals
+      description: Update the 'goals' column in the 'playerstats' collection.
+    - name: id
+      type: UpdateColumnPlayerstatsId
+      description: Update the 'id' column in the 'playerstats' collection.
+    - name: minutesPlayed
+      type: UpdateColumnPlayerstatsMinutesPlayed
+      description: Update the 'minutes_played' column in the 'playerstats' collection.
+    - name: personId
+      type: UpdateColumnPlayerstatsPersonId
+      description: Update the 'person_id' column in the 'playerstats' collection.
+    - name: rating
+      type: UpdateColumnPlayerstatsRating
+      description: Update the 'rating' column in the 'playerstats' collection.
+    - name: redCards
+      type: UpdateColumnPlayerstatsRedCards
+      description: Update the 'red_cards' column in the 'playerstats' collection.
+    - name: stats
+      type: UpdateColumnPlayerstatsStats
+      description: Update the 'stats' column in the 'playerstats' collection.
+    - name: yellowCards
+      type: UpdateColumnPlayerstatsYellowCards
+      description: Update the 'yellow_cards' column in the 'playerstats' collection.
+  graphql:
+    typeName: UpdatePlayerstatsByFixtureIdAndPersonIdUpdateColumns
+    inputTypeName: UpdatePlayerstatsByFixtureIdAndPersonIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_playerstats_by_fixture_id_and_person_id_update_columns
+      fieldMapping:
+        assists:
+          column:
+            name: assists
+        fixtureId:
+          column:
+            name: fixture_id
+        goals:
+          column:
+            name: goals
+        id:
+          column:
+            name: id
+        minutesPlayed:
+          column:
+            name: minutes_played
+        personId:
+          column:
+            name: person_id
+        rating:
+          column:
+            name: rating
+        redCards:
+          column:
+            name: red_cards
+        stats:
+          column:
+            name: stats
+        yellowCards:
+          column:
+            name: yellow_cards
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerstatsByFixtureIdAndPersonIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - assists
+          - fixtureId
+          - goals
+          - id
+          - minutesPlayed
+          - personId
+          - rating
+          - redCards
+          - stats
+          - yellowCards
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerstatsByFixtureIdAndPersonIdResponse
+  description: Responses from the 'update_playerstats_by_fixture_id_and_person_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Playerstats!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdatePlayerstatsByFixtureIdAndPersonIdResponse
+    inputTypeName: UpdatePlayerstatsByFixtureIdAndPersonIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_playerstats_by_fixture_id_and_person_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerstatsByFixtureIdAndPersonIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdatePlayerstatsByFixtureIdAndPersonId
+  outputType: UpdatePlayerstatsByFixtureIdAndPersonIdResponse!
+  arguments:
+    - name: keyFixtureId
+      type: Int32!
+    - name: keyPersonId
+      type: Int32!
+    - name: postCheck
+      type: PlayerstatsBoolExp
+      description: Update permission post-condition predicate over the 'playerstats'
+        collection
+    - name: preCheck
+      type: PlayerstatsBoolExp
+      description: Update permission pre-condition predicate over the 'playerstats'
+        collection
+    - name: updateColumns
+      type: UpdatePlayerstatsByFixtureIdAndPersonIdUpdateColumns!
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: update_playerstats_by_fixture_id_and_person_id
+    argumentMapping:
+      keyFixtureId: key_fixture_id
+      keyPersonId: key_person_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updatePlayerstatsByFixtureIdAndPersonId
+    rootFieldKind: Mutation
+  description: Update any row on the 'playerstats' collection using the
+    'fixture_id' and 'person_id' keys
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdatePlayerstatsByFixtureIdAndPersonId
+  permissions:
+    - role: admin
+      allowExecution: true
+

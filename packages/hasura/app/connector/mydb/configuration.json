@@ -93,21 +93,21 @@
           ]
         },
         "foreignRelations": {
-          "fixtures_away_team_id_fkey": {
+          "fk_away_team": {
             "foreignSchema": "public",
             "foreignTable": "teams",
             "columnMapping": {
               "away_team_id": "id"
             }
           },
-          "fixtures_home_team_id_fkey": {
+          "fk_home_team": {
             "foreignSchema": "public",
             "foreignTable": "teams",
             "columnMapping": {
               "home_team_id": "id"
             }
           },
-          "fixtures_sport_id_fkey": {
+          "fk_sport": {
             "foreignSchema": "public",
             "foreignTable": "sport",
             "columnMapping": {
@@ -153,7 +153,7 @@
           ]
         },
         "foreignRelations": {
-          "people_team_id_fkey": {
+          "fk_team": {
             "foreignSchema": "public",
             "foreignTable": "teams",
             "columnMapping": {
@@ -256,17 +256,21 @@
         "uniquenessConstraints": {
           "playerstats_pkey": [
             "id"
+          ],
+          "unique_player_fixture": [
+            "fixture_id",
+            "person_id"
           ]
         },
         "foreignRelations": {
-          "playerstats_fixture_id_fkey": {
+          "fk_fixture": {
             "foreignSchema": "public",
             "foreignTable": "fixtures",
             "columnMapping": {
               "fixture_id": "id"
             }
           },
-          "playerstats_person_id_fkey": {
+          "fk_person": {
             "foreignSchema": "public",
             "foreignTable": "people",
             "columnMapping": {
@@ -280,6 +284,14 @@
         "schemaName": "public",
         "tableName": "results",
         "columns": {
+          "away_score": {
+            "name": "away_score",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
           "details": {
             "name": "details",
             "type": {
@@ -290,6 +302,14 @@
           },
           "fixture_id": {
             "name": "fixture_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "home_score": {
+            "name": "home_score",
             "type": {
               "scalarType": "int4"
             },
@@ -329,14 +349,14 @@
           ]
         },
         "foreignRelations": {
-          "results_fixture_id_fkey": {
+          "fk_fixture": {
             "foreignSchema": "public",
             "foreignTable": "fixtures",
             "columnMapping": {
               "fixture_id": "id"
             }
           },
-          "results_winner_id_fkey": {
+          "fk_winner": {
             "foreignSchema": "public",
             "foreignTable": "teams",
             "columnMapping": {
@@ -412,7 +432,7 @@
           ]
         },
         "foreignRelations": {
-          "teams_sport_id_fkey": {
+          "fk_sport": {
             "foreignSchema": "public",
             "foreignTable": "sport",
             "columnMapping": {
@@ -437,6 +457,9 @@
               "returnType": "int4"
             },
             "bit_or": {
+              "returnType": "int4"
+            },
+            "bit_xor": {
               "returnType": "int4"
             },
             "max": {
@@ -525,6 +548,9 @@
               "returnType": "int8"
             },
             "bit_or": {
+              "returnType": "int8"
+            },
+            "bit_xor": {
               "returnType": "int8"
             },
             "max": {

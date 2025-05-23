@@ -14,6 +14,10 @@ definition:
       type: Timestamp
     - name: winnerId
       type: Int32
+    - name: awayScore
+      type: Int32!
+    - name: homeScore
+      type: Int32!
   graphql:
     typeName: InsertResultsObject
     inputTypeName: InsertResultsObjectInput
@@ -36,6 +40,12 @@ definition:
         winnerId:
           column:
             name: winner_id
+        awayScore:
+          column:
+            name: away_score
+        homeScore:
+          column:
+            name: home_score
 
 ---
 kind: TypePermissions
@@ -51,6 +61,8 @@ definition:
           - id
           - updatedAt
           - winnerId
+          - awayScore
+          - homeScore
 
 ---
 kind: ObjectType

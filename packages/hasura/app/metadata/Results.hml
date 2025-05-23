@@ -14,6 +14,10 @@ definition:
       type: Timestamp
     - name: winnerId
       type: Int32
+    - name: awayScore
+      type: Int32!
+    - name: homeScore
+      type: Int32!
   graphql:
     typeName: Results
     inputTypeName: ResultsInput
@@ -36,6 +40,12 @@ definition:
         winnerId:
           column:
             name: winner_id
+        awayScore:
+          column:
+            name: away_score
+        homeScore:
+          column:
+            name: home_score
 
 ---
 kind: TypePermissions
@@ -51,6 +61,8 @@ definition:
           - id
           - updatedAt
           - winnerId
+          - awayScore
+          - homeScore
 
 ---
 kind: BooleanExpressionType
@@ -70,6 +82,10 @@ definition:
         - fieldName: updatedAt
           booleanExpressionType: TimestampBoolExp
         - fieldName: winnerId
+          booleanExpressionType: Int4BoolExp
+        - fieldName: awayScore
+          booleanExpressionType: Int4BoolExp
+        - fieldName: homeScore
           booleanExpressionType: Int4BoolExp
       comparableRelationships:
         - relationshipName: fixture
@@ -100,6 +116,10 @@ definition:
           aggregateExpression: TimestampAggExp
         - fieldName: winnerId
           aggregateExpression: Int4AggExp
+        - fieldName: awayScore
+          aggregateExpression: Int4AggExp
+        - fieldName: homeScore
+          aggregateExpression: Int4AggExp
   count:
     enable: true
   graphql:
@@ -123,6 +143,10 @@ definition:
         - fieldName: updatedAt
           orderByExpression: TimestampOrderByExp
         - fieldName: winnerId
+          orderByExpression: Int32OrderByExp
+        - fieldName: awayScore
+          orderByExpression: Int32OrderByExp
+        - fieldName: homeScore
           orderByExpression: Int32OrderByExp
       orderableRelationships:
         - relationshipName: fixture

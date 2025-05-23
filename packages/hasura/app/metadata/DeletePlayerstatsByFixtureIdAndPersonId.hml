@@ -1,0 +1,76 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeletePlayerstatsByFixtureIdAndPersonIdResponse
+  description: Responses from the 'delete_playerstats_by_fixture_id_and_person_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Playerstats!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: DeletePlayerstatsByFixtureIdAndPersonIdResponse
+    inputTypeName: DeletePlayerstatsByFixtureIdAndPersonIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: delete_playerstats_by_fixture_id_and_person_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeletePlayerstatsByFixtureIdAndPersonIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeletePlayerstatsByFixtureIdAndPersonId
+  outputType: DeletePlayerstatsByFixtureIdAndPersonIdResponse!
+  arguments:
+    - name: keyFixtureId
+      type: Int32!
+    - name: keyPersonId
+      type: Int32!
+    - name: preCheck
+      type: PlayerstatsBoolExp
+      description: Delete permission predicate over the 'playerstats' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: delete_playerstats_by_fixture_id_and_person_id
+    argumentMapping:
+      keyFixtureId: key_fixture_id
+      keyPersonId: key_person_id
+      preCheck: pre_check
+  graphql:
+    rootFieldName: deletePlayerstatsByFixtureIdAndPersonId
+    rootFieldKind: Mutation
+  description: Delete any row on the 'playerstats' collection using the
+    'fixture_id' and 'person_id' keys
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeletePlayerstatsByFixtureIdAndPersonId
+  permissions:
+    - role: admin
+      allowExecution: true
+

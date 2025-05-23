@@ -68,21 +68,21 @@ VALUES
   (1, 2, 85, 0, 2, 1, 0, 8.0, '{"passes": 38, "shots": 1, "shots_on_target": 0, "distance_covered": 9.8, "tackles": 5}'::jsonb),
   (1, 5, 90, 1, 0, 0, 0, 7.5, '{"passes": 32, "shots": 3, "shots_on_target": 2, "distance_covered": 8.7, "tackles": 2}'::jsonb),
   (1, 10, 90, 0, 0, 0, 0, 7.0, '{"passes": 65, "shots": 0, "shots_on_target": 0, "distance_covered": 8.2, "tackles": 6}'::jsonb),
-  (1, 5, 90, 0, 0, 1, 0, 6.5, '{"passes": 27, "shots": 2, "shots_on_target": 1, "distance_covered": 9.5, "tackles": 3}'::jsonb),
+  (1, 13, 90, 0, 0, 1, 0, 6.5, '{"passes": 27, "shots": 2, "shots_on_target": 1, "distance_covered": 9.5, "tackles": 3}'::jsonb),
   
   -- Basketball match (fixture_id 2)
   (2, 3, 32, 22, 5, 0, 0, 8.5, '{"points": 22, "rebounds": 5, "assists": 5, "steals": 2, "blocks": 1, "three_pointers": 4}'::jsonb),
   (2, 6, 28, 18, 3, 0, 0, 7.8, '{"points": 18, "rebounds": 7, "assists": 3, "steals": 1, "blocks": 0, "three_pointers": 2}'::jsonb),
   (2, 11, 35, 25, 8, 0, 0, 9.2, '{"points": 25, "rebounds": 3, "assists": 8, "steals": 3, "blocks": 0, "three_pointers": 5}'::jsonb),
   (2, 14, 30, 14, 2, 0, 0, 7.4, '{"points": 14, "rebounds": 8, "assists": 2, "steals": 0, "blocks": 3, "three_pointers": 0}'::jsonb),
-  (2, 6, 26, 16, 4, 0, 0, 7.6, '{"points": 16, "rebounds": 6, "assists": 4, "steals": 2, "blocks": 1, "three_pointers": 2}'::jsonb),
+  (2, 2, 26, 16, 4, 0, 0, 7.6, '{"points": 16, "rebounds": 6, "assists": 4, "steals": 2, "blocks": 1, "three_pointers": 2}'::jsonb),
   
   -- Baseball match (fixture_id 3)
   (3, 4, 0, 0, 0, 0, 0, 8.2, '{"at_bats": 4, "hits": 2, "runs": 1, "rbis": 2, "home_runs": 1}'::jsonb),
   (3, 7, 0, 0, 0, 0, 0, 7.9, '{"at_bats": 3, "hits": 1, "runs": 1, "rbis": 0, "stolen_bases": 1}'::jsonb),
   (3, 12, 0, 0, 0, 0, 0, 8.7, '{"innings_pitched": 7, "hits_allowed": 4, "runs_allowed": 1, "strikeouts": 9}'::jsonb),
   (3, 15, 0, 0, 0, 0, 0, 7.5, '{"at_bats": 4, "hits": 2, "runs": 0, "rbis": 1, "stolen_bases": 0}'::jsonb),
-  (3, 7, 0, 0, 0, 0, 0, 6.8, '{"innings_pitched": 2, "hits_allowed": 3, "runs_allowed": 2, "strikeouts": 3}'::jsonb),
+  (3, 6, 0, 0, 0, 0, 0, 6.8, '{"innings_pitched": 2, "hits_allowed": 3, "runs_allowed": 2, "strikeouts": 3}'::jsonb),
   
   -- Soccer rematch (fixture_id 4)
   (4, 5, 90, 2, 0, 1, 0, 8.8, '{"passes": 42, "shots": 4, "shots_on_target": 3, "distance_covered": 9.8, "key_passes": 3}'::jsonb),
@@ -96,4 +96,4 @@ VALUES
   (5, 3, 34, 24, 4, 0, 0, 8.7, '{"points": 24, "rebounds": 5, "assists": 4, "steals": 2, "blocks": 0, "three_pointers": 4}'::jsonb),
   (5, 11, 38, 22, 10, 0, 0, 9.0, '{"points": 22, "rebounds": 4, "assists": 10, "steals": 1, "blocks": 0, "three_pointers": 3}'::jsonb),
   (5, 14, 32, 18, 3, 0, 0, 8.2, '{"points": 18, "rebounds": 9, "assists": 3, "steals": 1, "blocks": 4, "three_pointers": 0}'::jsonb),
-  (5, 14, 28, 16, 2, 0, 0, 7.8, '{"points": 16, "rebounds": 7, "assists": 2, "steals": 0, "blocks": 2, "three_pointers": 0}'::jsonb);
+  (5, 15, 28, 16, 2, 0, 0, 7.8, '{"points": 16, "rebounds": 7, "assists": 2, "steals": 0, "blocks": 2, "three_pointers": 0}'::jsonb);

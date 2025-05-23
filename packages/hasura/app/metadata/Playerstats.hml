@@ -213,6 +213,12 @@ definition:
           - id
         subscription:
           rootField: playerstatsById
+      - queryRootField: playerstatsByUniquePlayerFixture
+        uniqueIdentifier:
+          - fixtureId
+          - personId
+        subscription:
+          rootField: playerstatsByUniquePlayerFixture
     filterInputTypeName: PlayerstatsFilterInput
     aggregate:
       queryRootField: playerstatsAggregate

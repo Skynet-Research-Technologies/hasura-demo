@@ -259,6 +259,8 @@ definition:
           returnType: Bigdecimal
         - name: variance
           returnType: Bigdecimal
+        - name: bit_xor
+          returnType: Int32
       dataConnectorAggregationFunctionMapping:
         - dataConnectorName: mydb
           dataConnectorScalarType: int4
@@ -287,6 +289,8 @@ definition:
               name: var_samp
             variance:
               name: variance
+            bit_xor:
+              name: bit_xor
   count:
     enable: true
   countDistinct:
