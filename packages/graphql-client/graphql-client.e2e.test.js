@@ -16,10 +16,10 @@ const testConfig = {
 };
 
 describe('HasuraGraphQLClient E2E Tests', () => {
-  let ctx;
+  let client;
 
   beforeAll(() => {
-    ctx = createHasuraClient(testConfig);
+    client = createHasuraClient(testConfig);
   });
 
   describe('Fixtures API', () => {
@@ -38,7 +38,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
         status: 'scheduled'
       };
 
-      const result = await insertFixtures(ctx, [fixtureObject]);
+      const result = await insertFixtures(client, [fixtureObject]);
 
       expect(result).toBeDefined();
       expect(result.insertFixtures).toBeDefined();
@@ -47,14 +47,15 @@ describe('HasuraGraphQLClient E2E Tests', () => {
 
       createdFixtureId = result.insertFixtures.returning[0].id;
       expect(createdFixtureId).toBeDefined();
-      const history = getRequestHistory(ctx);
+      const history = client.getRequestHistory();
+      expect(history).toBeDefined();
       expect(history.length).toBeGreaterThan(0);
       expect(history[0].type).toBe('mutation');
       expect(history[0].success).toBe(true);
     });
 
     test('should fetch fixtures', async () => {
-      const result = await getFixtures(ctx, {
+      const result = await getFixtures(client, {
         limit: 5,
         orderBy: [{ fixtureDate: 'Desc' }]
       });
@@ -70,7 +71,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
         return;
       }
 
-      const result = await getFixtures(ctx, {
+      const result = await getFixtures(client, {
         where: { id: { _eq: createdFixtureId } }
       });
 
@@ -89,7 +90,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
       const updatedVenue = 'Updated Stadium Name';
       const updatedStatus = 'in_progress';
 
-      const updateResult = await updateFixtureById(ctx, createdFixtureId, {
+      const updateResult = await updateFixtureById(client, createdFixtureId, {
         venue: { set: updatedVenue },
         status: { set: updatedStatus }
       });
@@ -100,7 +101,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
       expect(updateResult.updateFixturesById.returning).toHaveLength(1);
       expect(updateResult.updateFixturesById.returning[0].venue).toBe(updatedVenue);
       expect(updateResult.updateFixturesById.returning[0].status).toBe(updatedStatus);
-      const fetchResult = await getFixtures(ctx, {
+      const fetchResult = await getFixtures(client, {
         where: { id: { _eq: createdFixtureId } }
       });
 
@@ -114,12 +115,12 @@ describe('HasuraGraphQLClient E2E Tests', () => {
         return;
       }
 
-      const deleteResult = await deleteFixtureById(ctx, createdFixtureId);
+      const deleteResult = await deleteFixtureById(client, createdFixtureId);
 
       expect(deleteResult).toBeDefined();
       expect(deleteResult.deleteFixturesById).toBeDefined();
       expect(deleteResult.deleteFixturesById.affectedRows).toBe(1);
-      const fetchResult = await getFixtures(ctx, {
+      const fetchResult = await getFixtures(client, {
         where: { id: { _eq: createdFixtureId } }
       });
 
@@ -136,7 +137,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
         teamId: 1
       };
 
-      const result = await insertPeople(ctx, [personObject]);
+      const result = await insertPeople(client, [personObject]);
 
       expect(result).toBeDefined();
       expect(result.insertPeople).toBeDefined();
@@ -147,7 +148,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
     });
 
     test('should fetch people', async () => {
-      const result = await getPeople(ctx, { limit: 5 });
+      const result = await getPeople(client, { limit: 5 });
 
       expect(result).toBeDefined();
       expect(result.people).toBeDefined();
@@ -161,7 +162,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
         return;
       }
 
-      const result = await getPeople(ctx, {
+      const result = await getPeople(client, {
         where: { id: { _eq: createdPersonId } }
       });
 
@@ -178,7 +179,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
     beforeAll(async () => {
       // Create a fixture and person to use for player stats
       const fixtureDate = new Date();
-      const fixtureResult = await insertFixtures(ctx, [{
+      const fixtureResult = await insertFixtures(client, [{
         homeTeamId: 1,
         awayTeamId: 2,
         sportId: 1,
@@ -188,7 +189,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
       }]);
       createdFixtureId = fixtureResult.insertFixtures.returning[0].id;
 
-      const personResult = await insertPeople(ctx, [{
+      const personResult = await insertPeople(client, [{
         name: 'Stats Test Player',
         teamId: 1
       }]);
@@ -214,7 +215,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
         stats: { passes: 45, tackles: 3 }
       };
 
-      const result = await insertPlayerStats(ctx, [statsObject]);
+      const result = await insertPlayerStats(client, [statsObject]);
 
       expect(result).toBeDefined();
       expect(result.insertPlayerstats).toBeDefined();
@@ -226,7 +227,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
     });
 
     test('should fetch player stats', async () => {
-      const result = await getPlayerStats(ctx, { limit: 5 });
+      const result = await getPlayerStats(client, { limit: 5 });
 
       expect(result).toBeDefined();
       expect(result.playerstats).toBeDefined();
@@ -240,7 +241,7 @@ describe('HasuraGraphQLClient E2E Tests', () => {
         return;
       }
 
-      const result = await getPlayerStats(ctx, {
+      const result = await getPlayerStats(client, {
         where: {
           fixtureId: { _eq: createdFixtureId },
           personId: { _eq: createdPersonId }

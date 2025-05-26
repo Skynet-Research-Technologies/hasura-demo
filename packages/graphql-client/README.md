@@ -38,13 +38,13 @@ const {
   getPlayerStats
 } = require('@hasura-demo/graphql-client');
 
-// Create a client context
-const ctx = createHasuraClient();
+// Create a client
+const client = createHasuraClient();
 
 // Query fixtures with ordering
-async function getFixtures() {
+async function getFixturesExample() {
   try {
-    const result = await getFixtures(ctx, { 
+    const result = await getFixtures(client, { 
       limit: 10,
       orderBy: [{ fixtureDate: 'Desc' }]
     });
@@ -57,12 +57,9 @@ async function getFixtures() {
 // Query with custom field selection
 async function getPeopleWithCustomFields() {
   try {
-    const result = await getPeople(ctx, { 
+    const result = await getPeople(client, { 
       limit: 5,
-      fields: `
-        id
-        name
-      `
+      fields: `id\nname`
     });
     console.log(result.people);
   } catch (error) {
@@ -80,7 +77,7 @@ async function createFixture() {
     const fixtureDate = new Date();
     fixtureDate.setDate(fixtureDate.getDate() + 7); // A fixture for next week
     
-    const result = await insertFixtures(ctx, [{
+    const result = await insertFixtures(client, [{
       homeTeamId: 1,
       awayTeamId: 2,
       sportId: 1,
@@ -100,7 +97,7 @@ async function createFixture() {
 // Update
 async function updateFixture(id) {
   try {
-    const result = await updateFixtureById(ctx, id, {
+    const result = await updateFixtureById(client, id, {
       venue: { set: 'Updated Stadium' },
       status: { set: 'rescheduled' }
     });
@@ -114,7 +111,7 @@ async function updateFixture(id) {
 // Delete
 async function deleteFixture(id) {
   try {
-    const result = await deleteFixtureById(ctx, id);
+    const result = await deleteFixtureById(client, id);
     console.log('Delete result:', result.deleteFixturesById.affectedRows);
   } catch (error) {
     console.error('Error:', error);
@@ -128,12 +125,12 @@ async function deleteFixture(id) {
 const { createHasuraClient, setJwtToken, setAdminSecret } = require('@hasura-demo/graphql-client');
 
 // Using JWT token
-const ctx = createHasuraClient();
-setJwtToken(ctx, 'your_jwt_token');
+const client = createHasuraClient();
+setJwtToken(client, 'your_jwt_token');
 
 // Using admin secret
-const ctx = createHasuraClient();
-setAdminSecret(ctx, 'your_admin_secret');
+const client = createHasuraClient();
+setAdminSecret(client, 'your_admin_secret');
 ```
 
 ## Running the Example
@@ -170,32 +167,32 @@ The tests are end-to-end tests that require a running Hasura instance with the a
 
 ### Authentication Methods
 
-- `setJwtToken(ctx, token)`: Set JWT token for authentication
-- `setAdminSecret(ctx, secret)`: Set admin secret for authentication
+- `setJwtToken(client, token)`: Set JWT token for authentication
+- `setAdminSecret(client, secret)`: Set admin secret for authentication
 
 ### Query Methods
 
-- `getFixtures(ctx, options)`: Query fixtures with optional filtering, ordering, and field selection
-- `getPeople(ctx, options)`: Query people with optional filtering, ordering, and field selection
-- `getPlayerStats(ctx, options)`: Query player stats with optional filtering, ordering, and field selection
+- `getFixtures(client, options)`: Query fixtures with optional filtering, ordering, and field selection
+- `getPeople(client, options)`: Query people with optional filtering, ordering, and field selection
+- `getPlayerStats(client, options)`: Query player stats with optional filtering, ordering, and field selection
 
 ### Mutation Methods
 
-- `insertFixtures(ctx, objects, options)`: Insert new fixtures
-- `insertPeople(ctx, objects, options)`: Insert new people
-- `insertPlayerStats(ctx, objects, options)`: Insert new player stats
-- `updateFixtureById(ctx, id, set, options)`: Update a fixture by ID
-- `updatePersonById(ctx, id, set, options)`: Update a person by ID
-- `updatePlayerStatsById(ctx, id, set, options)`: Update player stats by ID
-- `deleteFixtureById(ctx, id)`: Delete a fixture by ID
-- `deletePersonById(ctx, id)`: Delete a person by ID
-- `deletePlayerStatsById(ctx, id)`: Delete player stats by ID
-- `deletePlayerStatsByFixtureAndPerson(ctx, fixtureId, personId)`: Delete player stats by fixture and person IDs
+- `insertFixtures(client, objects, options)`: Insert new fixtures
+- `insertPeople(client, objects, options)`: Insert new people
+- `insertPlayerStats(client, objects, options)`: Insert new player stats
+- `updateFixtureById(client, id, set, options)`: Update a fixture by ID
+- `updatePersonById(client, id, set, options)`: Update a person by ID
+- `updatePlayerStatsById(client, id, set, options)`: Update player stats by ID
+- `deleteFixtureById(client, id)`: Delete a fixture by ID
+- `deletePersonById(client, id)`: Delete a person by ID
+- `deletePlayerStatsById(client, id)`: Delete player stats by ID
+- `deletePlayerStatsByFixtureAndPerson(client, fixtureId, personId)`: Delete player stats by fixture and person IDs
 
 ### Utility Methods
 
-- `execute(ctx, query, variables)`: Execute a raw GraphQL query or mutation
-- `getRequestHistory(ctx)`: Get the request history
-- `clearRequestHistory(ctx)`: Clear the request history
+- `execute(client, query, variables)`: Execute a raw GraphQL query or mutation
+- `getRequestHistory(client)`: Get the request history
+- `clearRequestHistory(client)`: Clear the request history
 
 Each method returns a Promise that resolves to the GraphQL response.

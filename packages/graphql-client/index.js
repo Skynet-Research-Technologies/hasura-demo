@@ -1,137 +1,12 @@
-const { GraphQLClient, gql } = require('graphql-request');
-const config = require('./config');
-
-/**
- * Creates a Hasura GraphQL client context with functional approach
- * @param {Object} options - Client configuration options
- * @returns {Object} - Client context object
- */
-const createHasuraClient = (options = {}) => {
-  // Create initial context
-  const context = {
-    url: options.url || config.endpoint,
-    headers: {
-      ...(options.headers || {}),
-      ...((options.adminSecret || config.adminSecret) && { 
-        'x-hasura-admin-secret': options.adminSecret || config.adminSecret
-      }),
-      ...((options.jwtToken || config.jwtToken) && { 
-        'Authorization': `Bearer ${options.jwtToken || config.jwtToken}` 
-      }),
-    },
-    requestHistory: [],
-    maxHistorySize: options.maxHistorySize || config.maxHistorySize
-  };
-  
-  // Initialize GraphQL client
-  context.client = new GraphQLClient(context.url, { headers: context.headers });
-  
-  return context;
-};
-
-/**
- * Adds a request to history
- * @param {Object} ctx - Client context
- * @param {Object} request - Request details to add to history
- */
-const addToRequestHistory = (ctx, request) => {
-  ctx.requestHistory.unshift(request);
-  if (ctx.requestHistory.length > ctx.maxHistorySize) {
-    ctx.requestHistory.pop();
-  }
-};
-
-/**
- * Updates the GraphQL client with current context
- * @param {Object} ctx - Client context
- */
-const updateClient = (ctx) => {
-  ctx.client = new GraphQLClient(ctx.url, { headers: ctx.headers });
-};
-
-/**
- * Sets JWT token for authorization
- * @param {Object} ctx - Client context
- * @param {string} token - JWT token
- * @returns {Object} - Updated context
- */
-const setJwtToken = (ctx, token) => {
-  ctx.headers.Authorization = `Bearer ${token}`;
-  updateClient(ctx);
-  return ctx;
-};
-
-/**
- * Sets admin secret for authorization
- * @param {Object} ctx - Client context
- * @param {string} secret - Admin secret
- * @returns {Object} - Updated context
- */
-const setAdminSecret = (ctx, secret) => {
-  ctx.headers['x-hasura-admin-secret'] = secret;
-  updateClient(ctx);
-  return ctx;
-};
-
-/**
- * Executes a GraphQL query or mutation
- * @param {Object} ctx - Client context
- * @param {string} query - GraphQL query or mutation
- * @param {Object} variables - Query variables
- * @returns {Promise<Object>} - Query result
- */
-const execute = async (ctx, query, variables = {}) => {
-  try {
-    const startTime = Date.now();
-    const result = await ctx.client.request(query, variables);
-    const endTime = Date.now();
-    
-    addToRequestHistory(ctx, {
-      type: query.trim().startsWith('mutation') ? 'mutation' : 'query',
-      variables,
-      duration: endTime - startTime,
-      timestamp: new Date().toISOString(),
-      success: true
-    });
-    
-    return result;
-  } catch (error) {
-    addToRequestHistory(ctx, {
-      type: query.trim().startsWith('mutation') ? 'mutation' : 'query',
-      variables,
-      error: error.message,
-      timestamp: new Date().toISOString(),
-      success: false
-    });
-    
-    throw error;
-  }
-};
-
-/**
- * Gets request history
- * @param {Object} ctx - Client context
- * @returns {Array} - Request history
- */
-const getRequestHistory = (ctx) => [...ctx.requestHistory];
-
-/**
- * Clears request history
- * @param {Object} ctx - Client context
- * @returns {Object} - Updated context
- */
-const clearRequestHistory = (ctx) => {
-  ctx.requestHistory = [];
-  return ctx;
-};
+const { gql, createHasuraClient } = require('./client');
 
 /**
  * Fetches fixtures with various options
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {Object} options - Query options
  * @returns {Promise<Object>} - Query result
  */
-const getFixtures = async (ctx, options = {}) => {
+const getFixtures = async (client, options = {}) => {
   const { limit = 10, offset = 0, where = {}, orderBy = null, fields = null } = options;
 
   const fieldsList = fields || `
@@ -155,16 +30,16 @@ const getFixtures = async (ctx, options = {}) => {
     }
   `;
 
-  return execute(ctx, query, { limit, offset, where, ...(orderBy && { orderBy }) });
+  return client.execute(query, { limit, offset, where, ...(orderBy && { orderBy }) });
 };
 
 /**
  * Fetches people with various options
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {Object} options - Query options
  * @returns {Promise<Object>} - Query result
  */
-const getPeople = async (ctx, options = {}) => {
+const getPeople = async (client, options = {}) => {
   const { limit = 10, offset = 0, where = {}, orderBy = null, fields = null } = options;
 
   const fieldsList = fields || `
@@ -183,16 +58,16 @@ const getPeople = async (ctx, options = {}) => {
     }
   `;
 
-  return execute(ctx, query, { limit, offset, where, ...(orderBy && { orderBy }) });
+  return client.execute(query, { limit, offset, where, ...(orderBy && { orderBy }) });
 };
 
 /**
  * Fetches player stats with various options
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {Object} options - Query options
  * @returns {Promise<Object>} - Query result
  */
-const getPlayerStats = async (ctx, options = {}) => {
+const getPlayerStats = async (client, options = {}) => {
   const { limit = 10, offset = 0, where = {}, orderBy = null, fields = null } = options;
 
   const fieldsList = fields || `
@@ -218,17 +93,17 @@ const getPlayerStats = async (ctx, options = {}) => {
     }
   `;
 
-  return execute(ctx, query, { limit, offset, where, ...(orderBy && { orderBy }) });
+  return client.execute(query, { limit, offset, where, ...(orderBy && { orderBy }) });
 };
 
 /**
  * Inserts fixtures
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {Array} objects - Fixture objects to insert
  * @param {Object} options - Insertion options
  * @returns {Promise<Object>} - Mutation result
  */
-const insertFixtures = async (ctx, objects, options = {}) => {
+const insertFixtures = async (client, objects, options = {}) => {
   const { fields = null, postCheck = null } = options;
   const fieldsList = fields || `
     id
@@ -254,7 +129,7 @@ const insertFixtures = async (ctx, objects, options = {}) => {
     }
   `;
 
-  return execute(ctx, mutation, { 
+  return client.execute(mutation, { 
     objects,
     ...(postCheck && { postCheck })
   });
@@ -262,12 +137,12 @@ const insertFixtures = async (ctx, objects, options = {}) => {
 
 /**
  * Inserts people
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {Array} objects - People objects to insert
  * @param {Object} options - Insertion options
  * @returns {Promise<Object>} - Mutation result
  */
-const insertPeople = async (ctx, objects, options = {}) => {
+const insertPeople = async (client, objects, options = {}) => {
   const { fields = null, postCheck = null } = options;
   const fieldsList = fields || `
     id
@@ -289,7 +164,7 @@ const insertPeople = async (ctx, objects, options = {}) => {
     }
   `;
 
-  return execute(ctx, mutation, { 
+  return client.execute(mutation, { 
     objects,
     ...(postCheck && { postCheck })
   });
@@ -297,12 +172,12 @@ const insertPeople = async (ctx, objects, options = {}) => {
 
 /**
  * Inserts player stats
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {Array} objects - Player stats objects to insert
  * @param {Object} options - Insertion options
  * @returns {Promise<Object>} - Mutation result
  */
-const insertPlayerStats = async (ctx, objects, options = {}) => {
+const insertPlayerStats = async (client, objects, options = {}) => {
   const { fields = null, postCheck = null } = options;
   const fieldsList = fields || `
     id
@@ -330,7 +205,7 @@ const insertPlayerStats = async (ctx, objects, options = {}) => {
     }
   `;
 
-  return execute(ctx, mutation, { 
+  return client.execute(mutation, { 
     objects,
     ...(postCheck && { postCheck })
   });
@@ -338,13 +213,13 @@ const insertPlayerStats = async (ctx, objects, options = {}) => {
 
 /**
  * Updates a fixture by ID
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {number} id - Fixture ID
  * @param {Object} set - Fields to update
  * @param {Object} options - Update options
  * @returns {Promise<Object>} - Mutation result
  */
-const updateFixtureById = async (ctx, id, set, options = {}) => {
+const updateFixtureById = async (client, id, set, options = {}) => {
   const { fields = null } = options;
   const fieldsList = fields || `
     id
@@ -367,18 +242,18 @@ const updateFixtureById = async (ctx, id, set, options = {}) => {
     }
   `;
 
-  return execute(ctx, mutation, { id, set });
+  return client.execute(mutation, { id, set });
 };
 
 /**
  * Updates a person by ID
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {number} id - Person ID
  * @param {Object} set - Fields to update
  * @param {Object} options - Update options
  * @returns {Promise<Object>} - Mutation result
  */
-const updatePersonById = async (ctx, id, set, options = {}) => {
+const updatePersonById = async (client, id, set, options = {}) => {
   const { fields = null } = options;
   const fieldsList = fields || `
     id
@@ -397,18 +272,18 @@ const updatePersonById = async (ctx, id, set, options = {}) => {
     }
   `;
 
-  return execute(ctx, mutation, { id, set });
+  return client.execute(mutation, { id, set });
 };
 
 /**
  * Updates player stats by ID
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {number} id - Player stats ID
  * @param {Object} set - Fields to update
  * @param {Object} options - Update options
  * @returns {Promise<Object>} - Mutation result
  */
-const updatePlayerStatsById = async (ctx, id, set, options = {}) => {
+const updatePlayerStatsById = async (client, id, set, options = {}) => {
   const { fields = null } = options;
   const fieldsList = fields || `
     id
@@ -433,16 +308,16 @@ const updatePlayerStatsById = async (ctx, id, set, options = {}) => {
     }
   `;
 
-  return execute(ctx, mutation, { id, set });
+  return client.execute(mutation, { id, set });
 };
 
 /**
  * Deletes a fixture by ID
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {number} id - Fixture ID
  * @returns {Promise<Object>} - Mutation result
  */
-const deleteFixtureById = async (ctx, id) => {
+const deleteFixtureById = async (client, id) => {
   const mutation = gql`
     mutation DeleteFixtureById($id: Int32!) {
       deleteFixturesById(keyId: $id) {
@@ -451,16 +326,16 @@ const deleteFixtureById = async (ctx, id) => {
     }
   `;
 
-  return execute(ctx, mutation, { id });
+  return client.execute(mutation, { id });
 };
 
 /**
  * Deletes a person by ID
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {number} id - Person ID
  * @returns {Promise<Object>} - Mutation result
  */
-const deletePersonById = async (ctx, id) => {
+const deletePersonById = async (client, id) => {
   const mutation = gql`
     mutation DeletePersonById($id: Int32!) {
       deletePeopleById(keyId: $id) {
@@ -469,16 +344,16 @@ const deletePersonById = async (ctx, id) => {
     }
   `;
 
-  return execute(ctx, mutation, { id });
+  return client.execute(mutation, { id });
 };
 
 /**
  * Deletes player stats by ID
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {number} id - Player stats ID
  * @returns {Promise<Object>} - Mutation result
  */
-const deletePlayerStatsById = async (ctx, id) => {
+const deletePlayerStatsById = async (client, id) => {
   const mutation = gql`
     mutation DeletePlayerStatsById($id: Int32!) {
       deletePlayerstatsById(keyId: $id) {
@@ -487,17 +362,17 @@ const deletePlayerStatsById = async (ctx, id) => {
     }
   `;
 
-  return execute(ctx, mutation, { id });
+  return client.execute(mutation, { id });
 };
 
 /**
  * Deletes player stats by fixture and person
- * @param {Object} ctx - Client context
+ * @param {Object} client - Client context
  * @param {number} fixtureId - Fixture ID
  * @param {number} personId - Person ID
  * @returns {Promise<Object>} - Mutation result
  */
-const deletePlayerStatsByFixtureAndPerson = async (ctx, fixtureId, personId) => {
+const deletePlayerStatsByFixtureAndPerson = async (client, fixtureId, personId) => {
   const mutation = gql`
     mutation DeletePlayerStatsByFixtureAndPerson($fixtureId: Int32!, $personId: Int32!) {
       deletePlayerstatsByFixtureIdAndPersonId(keyFixtureId: $fixtureId, keyPersonId: $personId) {
@@ -506,17 +381,15 @@ const deletePlayerStatsByFixtureAndPerson = async (ctx, fixtureId, personId) => 
     }
   `;
 
-  return execute(ctx, mutation, { fixtureId, personId });
+  return client.execute(mutation, { fixtureId, personId });
 };
 
 // Export all functions
 module.exports = {
+  // Re-export client functions
   createHasuraClient,
-  setJwtToken,
-  setAdminSecret,
-  execute,
-  getRequestHistory,
-  clearRequestHistory,
+  
+  // Domain-specific operations
   getFixtures,
   getPeople,
   getPlayerStats,

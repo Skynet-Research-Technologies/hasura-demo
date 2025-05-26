@@ -12,20 +12,20 @@ const config = require('./config');
 
 async function main() {
   try {
-    console.log('Initializing GraphQL client context...');
-    const ctx = createHasuraClient();
+    console.log('Initializing GraphQL client...');
+    const client = createHasuraClient();
 
     console.log('\n--- Example 1: Basic Queries ---');
 
     console.log('Fetching fixtures (with ordering)...');
-    const fixtures = await getFixtures(ctx, {
+    const fixtures = await getFixtures(client, {
       limit: 3,
       orderBy: [{ fixtureDate: 'Desc' }]
     });
     console.log(JSON.stringify(fixtures, null, 2));
 
     console.log('\nFetching people (with custom fields)...');
-    const people = await getPeople(ctx, {
+    const people = await getPeople(client, {
       limit: 3,
       fields: `
         id
@@ -35,7 +35,7 @@ async function main() {
     console.log(JSON.stringify(people, null, 2));
 
     console.log('\nFetching player stats (with filtering)...');
-    const playerStats = await getPlayerStats(ctx, {
+    const playerStats = await getPlayerStats(client, {
       limit: 3,
       where: {
         goals: { _gt: 0 }
@@ -50,7 +50,7 @@ async function main() {
       console.log('\nCreating a new fixture...');
       const fixtureDate = new Date();
       fixtureDate.setDate(fixtureDate.getDate() + 7);
-      const newFixture = await insertFixtures(ctx, [{
+      const newFixture = await insertFixtures(client, [{
         homeTeamId: 1,
         awayTeamId: 2,
         sportId: 1,
@@ -63,14 +63,14 @@ async function main() {
       const createdFixtureId = newFixture.insertFixtures.returning[0].id;
 
       console.log(`\nUpdating fixture ${createdFixtureId}...`);
-      const updatedFixture = await updateFixtureById(ctx, createdFixtureId, {
+      const updatedFixture = await updateFixtureById(client, createdFixtureId, {
         venue: { set: 'Updated Stadium' },
         status: { set: 'rescheduled' }
       });
       console.log(JSON.stringify(updatedFixture, null, 2));
 
       console.log(`\nDeleting fixture ${createdFixtureId}...`);
-      const deleteResult = await deleteFixtureById(ctx, createdFixtureId);
+      const deleteResult = await deleteFixtureById(client, createdFixtureId);
       console.log(JSON.stringify(deleteResult, null, 2));
     } else {
       console.log('\nSkipping mutation examples. Run with --run-mutations to execute them.');
@@ -78,7 +78,7 @@ async function main() {
 
     // Example 3: Show request history
     console.log('\n--- Example 3: Request History ---');
-    const history = getRequestHistory(ctx);
+    const history = getRequestHistory(client);
     console.log(`Made ${history.length} requests:`);
     history.forEach((req, i) => {
       console.log(`${i + 1}. ${req.type} - Success: ${req.success}, Time: ${req.timestamp}, Duration: ${req.duration}ms`);
