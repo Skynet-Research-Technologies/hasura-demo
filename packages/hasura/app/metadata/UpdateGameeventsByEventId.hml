@@ -1,0 +1,613 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsActorId
+  description: Update the 'actor_id' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: Int32
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsActorId
+    inputTypeName: UpdateColumnGameeventsActorIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_actor_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsActorId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsDependsOnEventId
+  description: Update the 'depends_on_event_id' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsDependsOnEventId
+    inputTypeName: UpdateColumnGameeventsDependsOnEventIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_depends_on_event_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsDependsOnEventId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsEventData
+  description: Update the 'event_data' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: Jsonb!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsEventData
+    inputTypeName: UpdateColumnGameeventsEventDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_event_data
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsEventData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsEventId
+  description: Update the 'event_id' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsEventId
+    inputTypeName: UpdateColumnGameeventsEventIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_event_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsEventId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsEventTimestamp
+  description: Update the 'event_timestamp' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: Timestamp!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsEventTimestamp
+    inputTypeName: UpdateColumnGameeventsEventTimestampInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_event_timestamp
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsEventTimestamp
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsEventType
+  description: Update the 'event_type' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsEventType
+    inputTypeName: UpdateColumnGameeventsEventTypeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_event_type
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsEventType
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsEventVersion
+  description: Update the 'event_version' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsEventVersion
+    inputTypeName: UpdateColumnGameeventsEventVersionInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_event_version
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsEventVersion
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsFixtureId
+  description: Update the 'fixture_id' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsFixtureId
+    inputTypeName: UpdateColumnGameeventsFixtureIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_fixture_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsFixtureId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsId
+  description: Update the 'id' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: Int32!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsId
+    inputTypeName: UpdateColumnGameeventsIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsProcessed
+  description: Update the 'processed' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: Boolean_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsProcessed
+    inputTypeName: UpdateColumnGameeventsProcessedInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_processed
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsProcessed
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsProcessedAt
+  description: Update the 'processed_at' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: Timestamp
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsProcessedAt
+    inputTypeName: UpdateColumnGameeventsProcessedAtInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_processed_at
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsProcessedAt
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsSequenceNumber
+  description: Update the 'sequence_number' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: Int64
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsSequenceNumber
+    inputTypeName: UpdateColumnGameeventsSequenceNumberInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_sequence_number
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsSequenceNumber
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnGameeventsStreamId
+  description: Update the 'stream_id' column in the 'gameevents' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnGameeventsStreamId
+    inputTypeName: UpdateColumnGameeventsStreamIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_gameevents_stream_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnGameeventsStreamId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateGameeventsByEventIdUpdateColumns
+  description: Update the columns of the 'gameevents' collection
+  fields:
+    - name: actorId
+      type: UpdateColumnGameeventsActorId
+      description: Update the 'actor_id' column in the 'gameevents' collection.
+    - name: dependsOnEventId
+      type: UpdateColumnGameeventsDependsOnEventId
+      description: Update the 'depends_on_event_id' column in the 'gameevents' collection.
+    - name: eventData
+      type: UpdateColumnGameeventsEventData
+      description: Update the 'event_data' column in the 'gameevents' collection.
+    - name: eventId
+      type: UpdateColumnGameeventsEventId
+      description: Update the 'event_id' column in the 'gameevents' collection.
+    - name: eventTimestamp
+      type: UpdateColumnGameeventsEventTimestamp
+      description: Update the 'event_timestamp' column in the 'gameevents' collection.
+    - name: eventType
+      type: UpdateColumnGameeventsEventType
+      description: Update the 'event_type' column in the 'gameevents' collection.
+    - name: eventVersion
+      type: UpdateColumnGameeventsEventVersion
+      description: Update the 'event_version' column in the 'gameevents' collection.
+    - name: fixtureId
+      type: UpdateColumnGameeventsFixtureId
+      description: Update the 'fixture_id' column in the 'gameevents' collection.
+    - name: id
+      type: UpdateColumnGameeventsId
+      description: Update the 'id' column in the 'gameevents' collection.
+    - name: processed
+      type: UpdateColumnGameeventsProcessed
+      description: Update the 'processed' column in the 'gameevents' collection.
+    - name: processedAt
+      type: UpdateColumnGameeventsProcessedAt
+      description: Update the 'processed_at' column in the 'gameevents' collection.
+    - name: sequenceNumber
+      type: UpdateColumnGameeventsSequenceNumber
+      description: Update the 'sequence_number' column in the 'gameevents' collection.
+    - name: streamId
+      type: UpdateColumnGameeventsStreamId
+      description: Update the 'stream_id' column in the 'gameevents' collection.
+  graphql:
+    typeName: UpdateGameeventsByEventIdUpdateColumns
+    inputTypeName: UpdateGameeventsByEventIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_gameevents_by_event_id_update_columns
+      fieldMapping:
+        actorId:
+          column:
+            name: actor_id
+        dependsOnEventId:
+          column:
+            name: depends_on_event_id
+        eventData:
+          column:
+            name: event_data
+        eventId:
+          column:
+            name: event_id
+        eventTimestamp:
+          column:
+            name: event_timestamp
+        eventType:
+          column:
+            name: event_type
+        eventVersion:
+          column:
+            name: event_version
+        fixtureId:
+          column:
+            name: fixture_id
+        id:
+          column:
+            name: id
+        processed:
+          column:
+            name: processed
+        processedAt:
+          column:
+            name: processed_at
+        sequenceNumber:
+          column:
+            name: sequence_number
+        streamId:
+          column:
+            name: stream_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateGameeventsByEventIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - actorId
+          - dependsOnEventId
+          - eventData
+          - eventId
+          - eventTimestamp
+          - eventType
+          - eventVersion
+          - fixtureId
+          - id
+          - processed
+          - processedAt
+          - sequenceNumber
+          - streamId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateGameeventsByEventIdResponse
+  description: Responses from the 'update_gameevents_by_event_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Gameevents!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateGameeventsByEventIdResponse
+    inputTypeName: UpdateGameeventsByEventIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_gameevents_by_event_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateGameeventsByEventIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateGameeventsByEventId
+  outputType: UpdateGameeventsByEventIdResponse!
+  arguments:
+    - name: keyEventId
+      type: String_1!
+    - name: postCheck
+      type: GameeventsBoolExp
+      description: Update permission post-condition predicate over the 'gameevents'
+        collection
+    - name: preCheck
+      type: GameeventsBoolExp
+      description: Update permission pre-condition predicate over the 'gameevents'
+        collection
+    - name: updateColumns
+      type: UpdateGameeventsByEventIdUpdateColumns!
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: update_gameevents_by_event_id
+    argumentMapping:
+      keyEventId: key_event_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateGameeventsByEventId
+    rootFieldKind: Mutation
+  description: Update any row on the 'gameevents' collection using the 'event_id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateGameeventsByEventId
+  permissions:
+    - role: admin
+      allowExecution: true
+

@@ -1,0 +1,174 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertGameeventsObject
+  fields:
+    - name: actorId
+      type: Int32
+    - name: dependsOnEventId
+      type: String_1
+    - name: eventData
+      type: Jsonb!
+    - name: eventId
+      type: String_1!
+    - name: eventTimestamp
+      type: Timestamp
+    - name: eventType
+      type: String_1!
+    - name: eventVersion
+      type: Int32
+    - name: fixtureId
+      type: Int32!
+    - name: id
+      type: Int32
+    - name: processed
+      type: Boolean_1
+    - name: processedAt
+      type: Timestamp
+    - name: sequenceNumber
+      type: Int64
+    - name: streamId
+      type: String_1
+  graphql:
+    typeName: InsertGameeventsObject
+    inputTypeName: InsertGameeventsObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_gameevents_object
+      fieldMapping:
+        actorId:
+          column:
+            name: actor_id
+        dependsOnEventId:
+          column:
+            name: depends_on_event_id
+        eventData:
+          column:
+            name: event_data
+        eventId:
+          column:
+            name: event_id
+        eventTimestamp:
+          column:
+            name: event_timestamp
+        eventType:
+          column:
+            name: event_type
+        eventVersion:
+          column:
+            name: event_version
+        fixtureId:
+          column:
+            name: fixture_id
+        id:
+          column:
+            name: id
+        processed:
+          column:
+            name: processed
+        processedAt:
+          column:
+            name: processed_at
+        sequenceNumber:
+          column:
+            name: sequence_number
+        streamId:
+          column:
+            name: stream_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertGameeventsObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - actorId
+          - dependsOnEventId
+          - eventData
+          - eventId
+          - eventTimestamp
+          - eventType
+          - eventVersion
+          - fixtureId
+          - id
+          - processed
+          - processedAt
+          - sequenceNumber
+          - streamId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertGameeventsResponse
+  description: Responses from the 'insert_gameevents' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Gameevents!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertGameeventsResponse
+    inputTypeName: InsertGameeventsResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: insert_gameevents_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertGameeventsResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertGameevents
+  outputType: InsertGameeventsResponse!
+  arguments:
+    - name: objects
+      type: "[InsertGameeventsObject!]!"
+    - name: postCheck
+      type: GameeventsBoolExp
+      description: Insert permission predicate over the 'gameevents' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: insert_gameevents
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertGameevents
+    rootFieldKind: Mutation
+  description: Insert into the gameevents table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertGameevents
+  permissions:
+    - role: admin
+      allowExecution: true
+

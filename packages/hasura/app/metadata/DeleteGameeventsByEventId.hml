@@ -1,0 +1,72 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteGameeventsByEventIdResponse
+  description: Responses from the 'delete_gameevents_by_event_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Gameevents!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: DeleteGameeventsByEventIdResponse
+    inputTypeName: DeleteGameeventsByEventIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: delete_gameevents_by_event_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteGameeventsByEventIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteGameeventsByEventId
+  outputType: DeleteGameeventsByEventIdResponse!
+  arguments:
+    - name: keyEventId
+      type: String_1!
+    - name: preCheck
+      type: GameeventsBoolExp
+      description: Delete permission predicate over the 'gameevents' collection
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: delete_gameevents_by_event_id
+    argumentMapping:
+      keyEventId: key_event_id
+      preCheck: pre_check
+  graphql:
+    rootFieldName: deleteGameeventsByEventId
+    rootFieldKind: Mutation
+  description: Delete any row on the 'gameevents' collection using the 'event_id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteGameeventsByEventId
+  permissions:
+    - role: admin
+      allowExecution: true
+

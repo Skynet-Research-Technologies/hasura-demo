@@ -101,6 +101,7 @@ definition:
         - relationshipName: sport
         - relationshipName: playerstats
         - relationshipName: results
+        - relationshipName: gameevents
   logicalOperators:
     enable: true
   isNull:
@@ -307,4 +308,26 @@ definition:
           - fieldName: fixtureId
   graphql:
     aggregateFieldName: resultsAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: gameevents
+  sourceType: Fixtures
+  target:
+    model:
+      name: Gameevents
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: GameeventsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: fixtureId
+  graphql:
+    aggregateFieldName: gameeventsAggregate
 

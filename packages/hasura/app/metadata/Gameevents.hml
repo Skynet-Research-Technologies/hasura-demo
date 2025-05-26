@@ -1,0 +1,315 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Gameevents
+  fields:
+    - name: actorId
+      type: Int32
+    - name: dependsOnEventId
+      type: String_1
+    - name: eventData
+      type: Jsonb!
+    - name: eventId
+      type: String_1!
+    - name: eventTimestamp
+      type: Timestamp!
+    - name: eventType
+      type: String_1!
+    - name: eventVersion
+      type: Int32!
+    - name: fixtureId
+      type: Int32!
+    - name: id
+      type: Int32!
+    - name: processed
+      type: Boolean_1
+    - name: processedAt
+      type: Timestamp
+    - name: sequenceNumber
+      type: Int64
+    - name: streamId
+      type: String_1
+  graphql:
+    typeName: Gameevents
+    inputTypeName: GameeventsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: gameevents
+      fieldMapping:
+        actorId:
+          column:
+            name: actor_id
+        dependsOnEventId:
+          column:
+            name: depends_on_event_id
+        eventData:
+          column:
+            name: event_data
+        eventId:
+          column:
+            name: event_id
+        eventTimestamp:
+          column:
+            name: event_timestamp
+        eventType:
+          column:
+            name: event_type
+        eventVersion:
+          column:
+            name: event_version
+        fixtureId:
+          column:
+            name: fixture_id
+        id:
+          column:
+            name: id
+        processed:
+          column:
+            name: processed
+        processedAt:
+          column:
+            name: processed_at
+        sequenceNumber:
+          column:
+            name: sequence_number
+        streamId:
+          column:
+            name: stream_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Gameevents
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - actorId
+          - dependsOnEventId
+          - eventData
+          - eventId
+          - eventTimestamp
+          - eventType
+          - eventVersion
+          - fixtureId
+          - id
+          - processed
+          - processedAt
+          - sequenceNumber
+          - streamId
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: GameeventsBoolExp
+  operand:
+    object:
+      type: Gameevents
+      comparableFields:
+        - fieldName: actorId
+          booleanExpressionType: Int4BoolExp
+        - fieldName: dependsOnEventId
+          booleanExpressionType: TextBoolExp
+        - fieldName: eventData
+          booleanExpressionType: JsonbBoolExp
+        - fieldName: eventId
+          booleanExpressionType: TextBoolExp
+        - fieldName: eventTimestamp
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: eventType
+          booleanExpressionType: TextBoolExp
+        - fieldName: eventVersion
+          booleanExpressionType: Int4BoolExp
+        - fieldName: fixtureId
+          booleanExpressionType: Int4BoolExp
+        - fieldName: id
+          booleanExpressionType: Int4BoolExp
+        - fieldName: processed
+          booleanExpressionType: BoolBoolExp
+        - fieldName: processedAt
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: sequenceNumber
+          booleanExpressionType: Int8BoolExp
+        - fieldName: streamId
+          booleanExpressionType: TextBoolExp
+      comparableRelationships:
+        - relationshipName: person
+        - relationshipName: fixture
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: GameeventsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: GameeventsAggExp
+  operand:
+    object:
+      aggregatedType: Gameevents
+      aggregatableFields:
+        - fieldName: actorId
+          aggregateExpression: Int4AggExp
+        - fieldName: dependsOnEventId
+          aggregateExpression: TextAggExp
+        - fieldName: eventData
+          aggregateExpression: JsonbAggExp
+        - fieldName: eventId
+          aggregateExpression: TextAggExp
+        - fieldName: eventTimestamp
+          aggregateExpression: TimestampAggExp
+        - fieldName: eventType
+          aggregateExpression: TextAggExp
+        - fieldName: eventVersion
+          aggregateExpression: Int4AggExp
+        - fieldName: fixtureId
+          aggregateExpression: Int4AggExp
+        - fieldName: id
+          aggregateExpression: Int4AggExp
+        - fieldName: processed
+          aggregateExpression: BoolAggExp
+        - fieldName: processedAt
+          aggregateExpression: TimestampAggExp
+        - fieldName: sequenceNumber
+          aggregateExpression: Int8AggExp
+        - fieldName: streamId
+          aggregateExpression: TextAggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: GameeventsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: GameeventsOrderByExp
+  operand:
+    object:
+      orderedType: Gameevents
+      orderableFields:
+        - fieldName: actorId
+          orderByExpression: Int32OrderByExp
+        - fieldName: dependsOnEventId
+          orderByExpression: String1OrderByExp
+        - fieldName: eventData
+          orderByExpression: JsonbOrderByExp
+        - fieldName: eventId
+          orderByExpression: String1OrderByExp
+        - fieldName: eventTimestamp
+          orderByExpression: TimestampOrderByExp
+        - fieldName: eventType
+          orderByExpression: String1OrderByExp
+        - fieldName: eventVersion
+          orderByExpression: Int32OrderByExp
+        - fieldName: fixtureId
+          orderByExpression: Int32OrderByExp
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: processed
+          orderByExpression: Boolean1OrderByExp
+        - fieldName: processedAt
+          orderByExpression: TimestampOrderByExp
+        - fieldName: sequenceNumber
+          orderByExpression: Int64OrderByExp
+        - fieldName: streamId
+          orderByExpression: String1OrderByExp
+      orderableRelationships:
+        - relationshipName: person
+        - relationshipName: fixture
+  graphql:
+    expressionTypeName: GameeventsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Gameevents
+  objectType: Gameevents
+  source:
+    dataConnectorName: mydb
+    collection: gameevents
+  filterExpressionType: GameeventsBoolExp
+  aggregateExpression: GameeventsAggExp
+  orderByExpression: GameeventsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: gameevents
+      subscription:
+        rootField: gameevents
+    selectUniques:
+      - queryRootField: gameeventsById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: gameeventsById
+      - queryRootField: gameeventsByEventId
+        uniqueIdentifier:
+          - eventId
+        subscription:
+          rootField: gameeventsByEventId
+      - queryRootField: gameeventsByUniqueStreamSequence
+        uniqueIdentifier:
+          - sequenceNumber
+          - streamId
+        subscription:
+          rootField: gameeventsByUniqueStreamSequence
+    filterInputTypeName: GameeventsFilterInput
+    aggregate:
+      queryRootField: gameeventsAggregate
+      subscription:
+        rootField: gameeventsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Gameevents
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: person
+  sourceType: Gameevents
+  target:
+    model:
+      name: People
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: actorId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: fixture
+  sourceType: Gameevents
+  target:
+    model:
+      name: Fixtures
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: fixtureId
+      target:
+        modelField:
+          - fieldName: id
+

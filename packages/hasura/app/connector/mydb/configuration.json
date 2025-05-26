@@ -117,6 +117,149 @@
         },
         "description": null
       },
+      "gameevents": {
+        "schemaName": "public",
+        "tableName": "gameevents",
+        "columns": {
+          "actor_id": {
+            "name": "actor_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nullable",
+            "description": null
+          },
+          "depends_on_event_id": {
+            "name": "depends_on_event_id",
+            "type": {
+              "scalarType": "text"
+            },
+            "nullable": "nullable",
+            "description": null
+          },
+          "event_data": {
+            "name": "event_data",
+            "type": {
+              "scalarType": "jsonb"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "event_id": {
+            "name": "event_id",
+            "type": {
+              "scalarType": "text"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "event_timestamp": {
+            "name": "event_timestamp",
+            "type": {
+              "scalarType": "timestamp"
+            },
+            "nullable": "nonNullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "event_type": {
+            "name": "event_type",
+            "type": {
+              "scalarType": "text"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "event_version": {
+            "name": "event_version",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "fixture_id": {
+            "name": "fixture_id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "description": null
+          },
+          "id": {
+            "name": "id",
+            "type": {
+              "scalarType": "int4"
+            },
+            "nullable": "nonNullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "processed": {
+            "name": "processed",
+            "type": {
+              "scalarType": "bool"
+            },
+            "nullable": "nullable",
+            "hasDefault": "hasDefault",
+            "description": null
+          },
+          "processed_at": {
+            "name": "processed_at",
+            "type": {
+              "scalarType": "timestamp"
+            },
+            "nullable": "nullable",
+            "description": null
+          },
+          "sequence_number": {
+            "name": "sequence_number",
+            "type": {
+              "scalarType": "int8"
+            },
+            "nullable": "nullable",
+            "description": null
+          },
+          "stream_id": {
+            "name": "stream_id",
+            "type": {
+              "scalarType": "text"
+            },
+            "nullable": "nullable",
+            "description": null
+          }
+        },
+        "uniquenessConstraints": {
+          "gameevents_pkey": [
+            "id"
+          ],
+          "unique_event_id": [
+            "event_id"
+          ],
+          "unique_stream_sequence": [
+            "sequence_number",
+            "stream_id"
+          ]
+        },
+        "foreignRelations": {
+          "fk_event_actor": {
+            "foreignSchema": "public",
+            "foreignTable": "people",
+            "columnMapping": {
+              "actor_id": "id"
+            }
+          },
+          "fk_event_fixture": {
+            "foreignSchema": "public",
+            "foreignTable": "fixtures",
+            "columnMapping": {
+              "fixture_id": "id"
+            }
+          }
+        },
+        "description": null
+      },
       "people": {
         "schemaName": "public",
         "tableName": "people",
@@ -445,6 +588,67 @@
     },
     "types": {
       "scalar": {
+        "bool": {
+          "typeName": "bool",
+          "schemaName": "pg_catalog",
+          "description": null,
+          "aggregateFunctions": {
+            "bool_and": {
+              "returnType": "bool"
+            },
+            "bool_or": {
+              "returnType": "bool"
+            },
+            "every": {
+              "returnType": "bool"
+            }
+          },
+          "comparisonOperators": {
+            "_eq": {
+              "operatorName": "=",
+              "operatorKind": "equal",
+              "argumentType": "bool",
+              "isInfix": true
+            },
+            "_gt": {
+              "operatorName": ">",
+              "operatorKind": "custom",
+              "argumentType": "bool",
+              "isInfix": true
+            },
+            "_gte": {
+              "operatorName": ">=",
+              "operatorKind": "custom",
+              "argumentType": "bool",
+              "isInfix": true
+            },
+            "_in": {
+              "operatorName": "IN",
+              "operatorKind": "in",
+              "argumentType": "bool",
+              "isInfix": true
+            },
+            "_lt": {
+              "operatorName": "<",
+              "operatorKind": "custom",
+              "argumentType": "bool",
+              "isInfix": true
+            },
+            "_lte": {
+              "operatorName": "<=",
+              "operatorKind": "custom",
+              "argumentType": "bool",
+              "isInfix": true
+            },
+            "_neq": {
+              "operatorName": "<>",
+              "operatorKind": "custom",
+              "argumentType": "bool",
+              "isInfix": true
+            }
+          },
+          "typeRepresentation": "boolean"
+        },
         "int4": {
           "typeName": "int4",
           "schemaName": "pg_catalog",

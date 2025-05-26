@@ -15,6 +15,58 @@ definition:
     version: v0.1
     schema:
       scalar_types:
+        bool:
+          representation:
+            type: boolean
+          aggregate_functions:
+            bool_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            bool_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            every:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
+            _gte:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
+            _in:
+              type: in
+            _lt:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
+            _lte:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
+            _neq:
+              type: custom
+              argument_type:
+                name: bool
+                type: named
         int4:
           representation:
             type: int32
@@ -538,6 +590,51 @@ definition:
                   name: fixtures
                   type: named
                 type: array
+        delete_gameevents_by_event_id_response:
+          description: Responses from the 'delete_gameevents_by_event_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: gameevents
+                  type: named
+                type: array
+        delete_gameevents_by_id_response:
+          description: Responses from the 'delete_gameevents_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: gameevents
+                  type: named
+                type: array
+        delete_gameevents_by_sequence_number_and_stream_id_response:
+          description: Responses from the 'delete_gameevents_by_sequence_number_and_stream_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: gameevents
+                  type: named
+                type: array
         delete_people_by_id_response:
           description: Responses from the 'delete_people_by_id' procedure
           fields:
@@ -668,6 +765,72 @@ definition:
                 underlying_type:
                   name: text
                   type: named
+        gameevents:
+          fields:
+            actor_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            depends_on_event_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            event_data:
+              type:
+                name: jsonb
+                type: named
+            event_id:
+              type:
+                name: text
+                type: named
+            event_timestamp:
+              type:
+                name: timestamp
+                type: named
+            event_type:
+              type:
+                name: text
+                type: named
+            event_version:
+              type:
+                name: int4
+                type: named
+            fixture_id:
+              type:
+                name: int4
+                type: named
+            id:
+              type:
+                name: int4
+                type: named
+            processed:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            processed_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            sequence_number:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            stream_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
         insert_fixtures_object:
           fields:
             away_team_id:
@@ -723,6 +886,93 @@ definition:
               type:
                 element_type:
                   name: fixtures
+                  type: named
+                type: array
+        insert_gameevents_object:
+          fields:
+            actor_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            depends_on_event_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            event_data:
+              type:
+                name: jsonb
+                type: named
+            event_id:
+              type:
+                name: text
+                type: named
+            event_timestamp:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            event_type:
+              type:
+                name: text
+                type: named
+            event_version:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            fixture_id:
+              type:
+                name: int4
+                type: named
+            id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            processed:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            processed_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            sequence_number:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            stream_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+        insert_gameevents_response:
+          description: Responses from the 'insert_gameevents' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: gameevents
                   type: named
                 type: array
         insert_people_object:
@@ -1148,6 +1398,122 @@ definition:
                 underlying_type:
                   name: text
                   type: named
+        update_column_gameevents_actor_id:
+          description: Update the 'actor_id' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+        update_column_gameevents_depends_on_event_id:
+          description: Update the 'depends_on_event_id' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+        update_column_gameevents_event_data:
+          description: Update the 'event_data' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: jsonb
+                type: named
+        update_column_gameevents_event_id:
+          description: Update the 'event_id' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+        update_column_gameevents_event_timestamp:
+          description: Update the 'event_timestamp' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+        update_column_gameevents_event_type:
+          description: Update the 'event_type' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+        update_column_gameevents_event_version:
+          description: Update the 'event_version' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_gameevents_fixture_id:
+          description: Update the 'fixture_id' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_gameevents_id:
+          description: Update the 'id' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+        update_column_gameevents_processed:
+          description: Update the 'processed' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+        update_column_gameevents_processed_at:
+          description: Update the 'processed_at' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+        update_column_gameevents_sequence_number:
+          description: Update the 'sequence_number' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+        update_column_gameevents_stream_id:
+          description: Update the 'stream_id' column in the 'gameevents' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
         update_column_people_id:
           description: Update the 'id' column in the 'people' collection
           fields:
@@ -1445,6 +1811,333 @@ definition:
                 type: nullable
                 underlying_type:
                   name: update_column_fixtures_venue
+                  type: named
+        update_gameevents_by_event_id_response:
+          description: Responses from the 'update_gameevents_by_event_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: gameevents
+                  type: named
+                type: array
+        update_gameevents_by_event_id_update_columns:
+          description: Update the columns of the 'gameevents' collection
+          fields:
+            actor_id:
+              description: Update the 'actor_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_actor_id
+                  type: named
+            depends_on_event_id:
+              description: Update the 'depends_on_event_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_depends_on_event_id
+                  type: named
+            event_data:
+              description: Update the 'event_data' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_data
+                  type: named
+            event_id:
+              description: Update the 'event_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_id
+                  type: named
+            event_timestamp:
+              description: Update the 'event_timestamp' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_timestamp
+                  type: named
+            event_type:
+              description: Update the 'event_type' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_type
+                  type: named
+            event_version:
+              description: Update the 'event_version' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_version
+                  type: named
+            fixture_id:
+              description: Update the 'fixture_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_fixture_id
+                  type: named
+            id:
+              description: Update the 'id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_id
+                  type: named
+            processed:
+              description: Update the 'processed' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_processed
+                  type: named
+            processed_at:
+              description: Update the 'processed_at' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_processed_at
+                  type: named
+            sequence_number:
+              description: Update the 'sequence_number' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_sequence_number
+                  type: named
+            stream_id:
+              description: Update the 'stream_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_stream_id
+                  type: named
+        update_gameevents_by_id_response:
+          description: Responses from the 'update_gameevents_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: gameevents
+                  type: named
+                type: array
+        update_gameevents_by_id_update_columns:
+          description: Update the columns of the 'gameevents' collection
+          fields:
+            actor_id:
+              description: Update the 'actor_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_actor_id
+                  type: named
+            depends_on_event_id:
+              description: Update the 'depends_on_event_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_depends_on_event_id
+                  type: named
+            event_data:
+              description: Update the 'event_data' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_data
+                  type: named
+            event_id:
+              description: Update the 'event_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_id
+                  type: named
+            event_timestamp:
+              description: Update the 'event_timestamp' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_timestamp
+                  type: named
+            event_type:
+              description: Update the 'event_type' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_type
+                  type: named
+            event_version:
+              description: Update the 'event_version' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_version
+                  type: named
+            fixture_id:
+              description: Update the 'fixture_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_fixture_id
+                  type: named
+            id:
+              description: Update the 'id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_id
+                  type: named
+            processed:
+              description: Update the 'processed' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_processed
+                  type: named
+            processed_at:
+              description: Update the 'processed_at' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_processed_at
+                  type: named
+            sequence_number:
+              description: Update the 'sequence_number' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_sequence_number
+                  type: named
+            stream_id:
+              description: Update the 'stream_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_stream_id
+                  type: named
+        update_gameevents_by_sequence_number_and_stream_id_response:
+          description: Responses from the 'update_gameevents_by_sequence_number_and_stream_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: gameevents
+                  type: named
+                type: array
+        update_gameevents_by_sequence_number_and_stream_id_update_columns:
+          description: Update the columns of the 'gameevents' collection
+          fields:
+            actor_id:
+              description: Update the 'actor_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_actor_id
+                  type: named
+            depends_on_event_id:
+              description: Update the 'depends_on_event_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_depends_on_event_id
+                  type: named
+            event_data:
+              description: Update the 'event_data' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_data
+                  type: named
+            event_id:
+              description: Update the 'event_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_id
+                  type: named
+            event_timestamp:
+              description: Update the 'event_timestamp' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_timestamp
+                  type: named
+            event_type:
+              description: Update the 'event_type' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_type
+                  type: named
+            event_version:
+              description: Update the 'event_version' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_event_version
+                  type: named
+            fixture_id:
+              description: Update the 'fixture_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_fixture_id
+                  type: named
+            id:
+              description: Update the 'id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_id
+                  type: named
+            processed:
+              description: Update the 'processed' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_processed
+                  type: named
+            processed_at:
+              description: Update the 'processed_at' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_processed_at
+                  type: named
+            sequence_number:
+              description: Update the 'sequence_number' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_sequence_number
+                  type: named
+            stream_id:
+              description: Update the 'stream_id' column in the 'gameevents' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_gameevents_stream_id
                   type: named
         update_people_by_id_response:
           description: Responses from the 'update_people_by_id' procedure
@@ -1820,6 +2513,29 @@ definition:
               column_mapping:
                 sport_id: id
               foreign_collection: sport
+        - name: gameevents
+          arguments: {}
+          type: gameevents
+          uniqueness_constraints:
+            gameevents_pkey:
+              unique_columns:
+                - id
+            unique_event_id:
+              unique_columns:
+                - event_id
+            unique_stream_sequence:
+              unique_columns:
+                - sequence_number
+                - stream_id
+          foreign_keys:
+            fk_event_actor:
+              column_mapping:
+                actor_id: id
+              foreign_collection: people
+            fk_event_fixture:
+              column_mapping:
+                fixture_id: id
+              foreign_collection: fixtures
         - name: people
           arguments: {}
           type: people
@@ -1906,6 +2622,65 @@ definition:
                   type: predicate
           result_type:
             name: delete_fixtures_by_id_response
+            type: named
+        - name: delete_gameevents_by_event_id
+          description: Delete any row on the 'gameevents' collection using the 'event_id' key
+          arguments:
+            key_event_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+          result_type:
+            name: delete_gameevents_by_event_id_response
+            type: named
+        - name: delete_gameevents_by_id
+          description: Delete any row on the 'gameevents' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: int4
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+          result_type:
+            name: delete_gameevents_by_id_response
+            type: named
+        - name: delete_gameevents_by_sequence_number_and_stream_id
+          description: Delete any row on the 'gameevents' collection using the 'sequence_number' and 'stream_id' keys
+          arguments:
+            key_sequence_number:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            key_stream_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            pre_check:
+              description: Delete permission predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+          result_type:
+            name: delete_gameevents_by_sequence_number_and_stream_id_response
             type: named
         - name: delete_people_by_id
           description: Delete any row on the 'people' collection using the 'id' key
@@ -2032,6 +2807,25 @@ definition:
           result_type:
             name: insert_fixtures_response
             type: named
+        - name: insert_gameevents
+          description: Insert into the gameevents table
+          arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_gameevents_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+          result_type:
+            name: insert_gameevents_response
+            type: named
         - name: insert_people
           description: Insert into the people table
           arguments:
@@ -2154,6 +2948,98 @@ definition:
                 type: named
           result_type:
             name: update_fixtures_by_id_response
+            type: named
+        - name: update_gameevents_by_event_id
+          description: Update any row on the 'gameevents' collection using the 'event_id' key
+          arguments:
+            key_event_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+            update_columns:
+              type:
+                name: update_gameevents_by_event_id_update_columns
+                type: named
+          result_type:
+            name: update_gameevents_by_event_id_response
+            type: named
+        - name: update_gameevents_by_id
+          description: Update any row on the 'gameevents' collection using the 'id' key
+          arguments:
+            key_id:
+              type:
+                name: int4
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+            update_columns:
+              type:
+                name: update_gameevents_by_id_update_columns
+                type: named
+          result_type:
+            name: update_gameevents_by_id_response
+            type: named
+        - name: update_gameevents_by_sequence_number_and_stream_id
+          description: Update any row on the 'gameevents' collection using the 'sequence_number' and 'stream_id' keys
+          arguments:
+            key_sequence_number:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            key_stream_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'gameevents' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: gameevents
+                  type: predicate
+            update_columns:
+              type:
+                name: update_gameevents_by_sequence_number_and_stream_id_update_columns
+                type: named
+          result_type:
+            name: update_gameevents_by_sequence_number_and_stream_id_response
             type: named
         - name: update_people_by_id
           description: Update any row on the 'people' collection using the 'id' key

@@ -58,6 +58,7 @@ definition:
       comparableRelationships:
         - relationshipName: team
         - relationshipName: playerstats
+        - relationshipName: gameevents
   logicalOperators:
     enable: true
   isNull:
@@ -184,4 +185,26 @@ definition:
           - fieldName: personId
   graphql:
     aggregateFieldName: playerstatsAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: gameevents
+  sourceType: People
+  target:
+    model:
+      name: Gameevents
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: GameeventsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: actorId
+  graphql:
+    aggregateFieldName: gameeventsAggregate
 

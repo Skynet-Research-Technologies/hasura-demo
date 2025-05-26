@@ -1,0 +1,202 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateGameeventsBySequenceNumberAndStreamIdUpdateColumns
+  description: Update the columns of the 'gameevents' collection
+  fields:
+    - name: actorId
+      type: UpdateColumnGameeventsActorId
+      description: Update the 'actor_id' column in the 'gameevents' collection.
+    - name: dependsOnEventId
+      type: UpdateColumnGameeventsDependsOnEventId
+      description: Update the 'depends_on_event_id' column in the 'gameevents' collection.
+    - name: eventData
+      type: UpdateColumnGameeventsEventData
+      description: Update the 'event_data' column in the 'gameevents' collection.
+    - name: eventId
+      type: UpdateColumnGameeventsEventId
+      description: Update the 'event_id' column in the 'gameevents' collection.
+    - name: eventTimestamp
+      type: UpdateColumnGameeventsEventTimestamp
+      description: Update the 'event_timestamp' column in the 'gameevents' collection.
+    - name: eventType
+      type: UpdateColumnGameeventsEventType
+      description: Update the 'event_type' column in the 'gameevents' collection.
+    - name: eventVersion
+      type: UpdateColumnGameeventsEventVersion
+      description: Update the 'event_version' column in the 'gameevents' collection.
+    - name: fixtureId
+      type: UpdateColumnGameeventsFixtureId
+      description: Update the 'fixture_id' column in the 'gameevents' collection.
+    - name: id
+      type: UpdateColumnGameeventsId
+      description: Update the 'id' column in the 'gameevents' collection.
+    - name: processed
+      type: UpdateColumnGameeventsProcessed
+      description: Update the 'processed' column in the 'gameevents' collection.
+    - name: processedAt
+      type: UpdateColumnGameeventsProcessedAt
+      description: Update the 'processed_at' column in the 'gameevents' collection.
+    - name: sequenceNumber
+      type: UpdateColumnGameeventsSequenceNumber
+      description: Update the 'sequence_number' column in the 'gameevents' collection.
+    - name: streamId
+      type: UpdateColumnGameeventsStreamId
+      description: Update the 'stream_id' column in the 'gameevents' collection.
+  graphql:
+    typeName: UpdateGameeventsBySequenceNumberAndStreamIdUpdateColumns
+    inputTypeName: UpdateGameeventsBySequenceNumberAndStreamIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_gameevents_by_sequence_number_and_stream_id_update_columns
+      fieldMapping:
+        actorId:
+          column:
+            name: actor_id
+        dependsOnEventId:
+          column:
+            name: depends_on_event_id
+        eventData:
+          column:
+            name: event_data
+        eventId:
+          column:
+            name: event_id
+        eventTimestamp:
+          column:
+            name: event_timestamp
+        eventType:
+          column:
+            name: event_type
+        eventVersion:
+          column:
+            name: event_version
+        fixtureId:
+          column:
+            name: fixture_id
+        id:
+          column:
+            name: id
+        processed:
+          column:
+            name: processed
+        processedAt:
+          column:
+            name: processed_at
+        sequenceNumber:
+          column:
+            name: sequence_number
+        streamId:
+          column:
+            name: stream_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateGameeventsBySequenceNumberAndStreamIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - actorId
+          - dependsOnEventId
+          - eventData
+          - eventId
+          - eventTimestamp
+          - eventType
+          - eventVersion
+          - fixtureId
+          - id
+          - processed
+          - processedAt
+          - sequenceNumber
+          - streamId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateGameeventsBySequenceNumberAndStreamIdResponse
+  description: Responses from the
+    'update_gameevents_by_sequence_number_and_stream_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[Gameevents!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateGameeventsBySequenceNumberAndStreamIdResponse
+    inputTypeName: UpdateGameeventsBySequenceNumberAndStreamIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_gameevents_by_sequence_number_and_stream_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateGameeventsBySequenceNumberAndStreamIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateGameeventsBySequenceNumberAndStreamId
+  outputType: UpdateGameeventsBySequenceNumberAndStreamIdResponse!
+  arguments:
+    - name: keySequenceNumber
+      type: Int64
+    - name: keyStreamId
+      type: String_1
+    - name: postCheck
+      type: GameeventsBoolExp
+      description: Update permission post-condition predicate over the 'gameevents'
+        collection
+    - name: preCheck
+      type: GameeventsBoolExp
+      description: Update permission pre-condition predicate over the 'gameevents'
+        collection
+    - name: updateColumns
+      type: UpdateGameeventsBySequenceNumberAndStreamIdUpdateColumns!
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: update_gameevents_by_sequence_number_and_stream_id
+    argumentMapping:
+      keySequenceNumber: key_sequence_number
+      keyStreamId: key_stream_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateGameeventsBySequenceNumberAndStreamId
+    rootFieldKind: Mutation
+  description: Update any row on the 'gameevents' collection using the
+    'sequence_number' and 'stream_id' keys
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateGameeventsBySequenceNumberAndStreamId
+  permissions:
+    - role: admin
+      allowExecution: true
+

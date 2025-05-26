@@ -72,6 +72,30 @@ CREATE TABLE IF NOT EXISTS PlayerStats (
   CONSTRAINT unique_player_fixture UNIQUE (person_id, fixture_id)
 );
 
+-- GameEvents table - serves as an event sourcing table for all game-related events
+CREATE TABLE IF NOT EXISTS GameEvents (
+  id SERIAL PRIMARY KEY,
+  fixture_id INTEGER NOT NULL,
+  event_type TEXT NOT NULL,
+  event_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  event_id TEXT NOT NULL, -- Unique identifier for the event for idempotence
+  actor_id INTEGER, -- The person or system that caused the event
+  event_data JSONB NOT NULL, -- Event payload with the actual data
+  processed BOOLEAN DEFAULT FALSE,
+  processed_at TIMESTAMP,
+  event_version INTEGER NOT NULL DEFAULT 1,
+
+  -- Add sequence tracking columns
+  stream_id TEXT, -- Optional identifier for event stream grouping
+  sequence_number BIGINT, -- Optional sequence number within a stream
+  depends_on_event_id TEXT, -- Optional reference to preceding event
+  
+  CONSTRAINT fk_event_fixture FOREIGN KEY (fixture_id) REFERENCES Fixtures(id) ON DELETE CASCADE,
+  CONSTRAINT fk_event_actor FOREIGN KEY (actor_id) REFERENCES People(id) ON DELETE SET NULL,
+  CONSTRAINT unique_event_id UNIQUE (event_id) -- Ensures idempotency
+  CONSTRAINT unique_stream_sequence UNIQUE (stream_id, sequence_number) -- Ensures sequence integrity
+);
+
 -- Create indexes for better query performance (if they don't exist)
 DO $$
 BEGIN
@@ -117,6 +141,26 @@ BEGIN
   
   IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_playerstats_person') THEN
     CREATE INDEX idx_playerstats_person ON PlayerStats(person_id);
+  END IF;
+END $$;
+
+-- Create indexes for GameEvents table
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_gameevents_fixture') THEN
+    CREATE INDEX idx_gameevents_fixture ON GameEvents(fixture_id);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_gameevents_type') THEN
+    CREATE INDEX idx_gameevents_type ON GameEvents(event_type);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_gameevents_timestamp') THEN
+    CREATE INDEX idx_gameevents_timestamp ON GameEvents(event_timestamp);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_gameevents_processed') THEN
+    CREATE INDEX idx_gameevents_processed ON GameEvents(processed);
   END IF;
 END $$;
 
