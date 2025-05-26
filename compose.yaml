@@ -10,6 +10,18 @@ services:
     volumes:
       - ./scripts/db-init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
+  auth-server:
+    build:
+      context: .
+      dockerfile: ./containerfile
+    ports:
+      - "3333:3333"
+    working_dir: /app
+    volumes:
+      - "./packages/auth-server:/app/packages/auth-server"
+      - "./package.json:/app/package.json"
+      - "./package-lock.json:/app/package-lock.json"
+    command: npm run -w @hasura-demo/auth-server start
 
 volumes:
   postgres_data:
