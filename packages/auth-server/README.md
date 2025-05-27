@@ -4,7 +4,7 @@ This service provides authentication and JWT token generation for Hasura. It sup
 
 - **admin**: Full access to all resources and actions.
 - **user**: Standard user access, limited to their own data and permitted actions.
-- **public**: Minimal access, typically for unauthenticated or guest users.
+- **guest**: Minimal access, typically for unauthenticated or guest users.
 
 Update the user management and JWT claims as needed to support these roles in your Hasura instance.
 

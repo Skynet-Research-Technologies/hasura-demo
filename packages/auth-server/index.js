@@ -14,72 +14,86 @@ app.use(express.json());
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  // Find user (in a real app, use secure password hashing)
-  const user = users.find(u => u.username === username && u.password === password);
+  let user;
+  if (!username) {
+    user = users['guest'];
+  } else if (users[username] && users[username].password === password) {
+    // valid credentials
+    user = users[username];
+  }
+
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
 
   // For demo, assign each user to the first organisation
   const tenantId = organisations[0].id;
 
-  if (user) {
-    // Create JWT with user claims
-    const token = jwt.sign(
-      {
-        'claims.jwt.hasura.io': {
-          'x-hasura-allowed-roles': ['admin', 'user', 'public'],
-          'x-hasura-default-role': user.role,
-          'x-hasura-user-id': user.id.toString(),
-          'x-hasura-tenant-id': tenantId
-        },
-        sub: user.id.toString(),
-        name: user.username
+  // Create JWT with user claims
+  const token = jwt.sign(
+    {
+      'claims.jwt.hasura.io': {
+        'x-hasura-allowed-roles': ['admin', 'user', 'guest'],
+        'x-hasura-default-role': user.role,
+        'x-hasura-user-id': user.id.toString(),
+        'x-hasura-tenant-id': tenantId
       },
-      JWT_SECRET,
-      {
-        algorithm: 'HS256',
-        expiresIn: '1h'
-      }
-    );
+      sub: user.id.toString(),
+      name: user.username
+    },
+    JWT_SECRET,
+    {
+      algorithm: 'HS256',
+      expiresIn: '1h'
+    }
+  );
 
-    res.json({ token });
-  } else {
-    res.status(401).json({ message: 'Invalid credentials' });
-  }
+  res.json({ token });
 });
 
-app.listen(APP_PORT, () => {
+const server = app.listen(APP_PORT, () => {
   console.log(`Auth server running on http://localhost:${APP_PORT}`);
 });
 
-module.exports = app;
+module.exports = {
+  app,
+  closeServer: () => server.close()
+};
 
 // Mock user database (replace with your actual user management)
-const users = [
-  {
-    id: 1,
+const users = {
+  'admin': {
+    id: 'user-a1b2c3d4e5f6g7h8i9j0k1l2',
     username: 'admin',
     password: 'adminpass',
     role: 'admin'
   },
-  {
-    id: 2,
+  'user': {
+    id: 'user-b2c3d4e5f6g7h8i9j0k1l2m3',
     username: 'user',
     password: 'userpass',
     role: 'user'
+  },
+  'guest': {
+    id: 'user-c3d4e5f6g7h8i9j0k1l2m3n4',
+    username: 'guest',
+    password: 'guestpass',
+    role: 'guest',
   }
-];
+};
 
 // Mock organisations database
 const organisations = [
   {
-    id: 'b1e2e2e2e2e2e2e2e2e2e2e2e',
+    id: 'org-b1e2e2e2e2e2e2e2e2e2e2e2e',
     name: 'Acme Corp'
   },
   {
-    id: 'c2f3f3f3f3f3f3f3f3f3f3f3f',
+    id: 'org-c2f3f3f3f3f3f3f3f3f3f3f3f',
     name: 'Globex Solutions'
   },
   {
-    id: 'd3a4a4a4a4a4a4a4a4a4a4a4a',
+    id: 'org-d3a4a4a4a4a4a4a4a4a4a4a4a',
     name: 'Umbrella Group'
   }
 ];
