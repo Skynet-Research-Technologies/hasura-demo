@@ -17,14 +17,18 @@ app.post('/login', (req, res) => {
   // Find user (in a real app, use secure password hashing)
   const user = users.find(u => u.username === username && u.password === password);
 
+  // For demo, assign each user to the first organisation
+  const tenantId = organisations[0].id;
+
   if (user) {
     // Create JWT with user claims
     const token = jwt.sign(
       {
         'claims.jwt.hasura.io': {
-          'x-hasura-allowed-roles': ['admin', 'user'],
+          'x-hasura-allowed-roles': ['admin', 'user', 'public'],
           'x-hasura-default-role': user.role,
-          'x-hasura-user-id': user.id.toString()
+          'x-hasura-user-id': user.id.toString(),
+          'x-hasura-tenant-id': tenantId
         },
         sub: user.id.toString(),
         name: user.username
@@ -61,5 +65,21 @@ const users = [
     username: 'user',
     password: 'userpass',
     role: 'user'
+  }
+];
+
+// Mock organisations database
+const organisations = [
+  {
+    id: 'b1e2e2e2e2e2e2e2e2e2e2e2e',
+    name: 'Acme Corp'
+  },
+  {
+    id: 'c2f3f3f3f3f3f3f3f3f3f3f3f',
+    name: 'Globex Solutions'
+  },
+  {
+    id: 'd3a4a4a4a4a4a4a4a4a4a4a4a',
+    name: 'Umbrella Group'
   }
 ];
