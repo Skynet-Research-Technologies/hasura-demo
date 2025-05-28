@@ -1,3 +1,19 @@
+-- Migration: update_db_init.sql
+-- Description: Update db-init.sql to include tenant_id in all table definitions and optimize indexes
+-- Author: Hasura Demo Team
+-- Date: 2025-05-27
+
+-- This is a transformation script to update the original db-init.sql
+-- to include tenant_id in all table definitions and replace standard indexes
+-- with tenant-optimized ones. It incorporates all the changes that were
+-- previously made to add multi-tenancy support.
+
+-- Instructions:
+-- 1. Review this script
+-- 2. Apply it by manually copying it over db-init.sql or using the command:
+--    cp /Users/Clayton/Documents/hugo/hasura-demo/scripts/migrations/update_db_init.sql /Users/Clayton/Documents/hugo/hasura-demo/scripts/db-init.sql
+
+-- filepath: /Users/Clayton/Documents/hugo/hasura-demo/scripts/db-init.sql
 -- Migration: 20250522_001_initial_schema
 -- Description: Create initial tables for sports league database with proper relationships
 -- Author: Hasura Demo Team
@@ -7,14 +23,14 @@ BEGIN;
 -- Sports table - stores different types of sports
 CREATE TABLE IF NOT EXISTS Sport (
   id SERIAL PRIMARY KEY,
-  tenant_id TEXT NOT NULL, -- Added for multi-tenancy with RLS
+  tenant_id TEXT NOT NULL, -- Added for multi-tenancy
   name TEXT NOT NULL
 );
 
 -- Teams table - stores team information with foreign key to sport
 CREATE TABLE IF NOT EXISTS Teams (
   id SERIAL PRIMARY KEY,
-  tenant_id TEXT NOT NULL, -- Added for multi-tenancy with RLS
+  tenant_id TEXT NOT NULL, -- Added for multi-tenancy
   name TEXT NOT NULL,
   sport_id INTEGER,
   CONSTRAINT fk_sport FOREIGN KEY (sport_id) REFERENCES Sport(id) ON DELETE SET NULL
@@ -23,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Teams (
 -- People table - stores information about players with foreign key to team
 CREATE TABLE IF NOT EXISTS People (
   id SERIAL PRIMARY KEY,
-  tenant_id TEXT NOT NULL, -- Added for multi-tenancy with RLS
+  tenant_id TEXT NOT NULL, -- Added for multi-tenancy
   name TEXT NOT NULL,
   team_id INTEGER,
   CONSTRAINT fk_team FOREIGN KEY (team_id) REFERENCES Teams(id) ON DELETE SET NULL
@@ -32,7 +48,7 @@ CREATE TABLE IF NOT EXISTS People (
 -- Fixtures table - stores information about matches
 CREATE TABLE IF NOT EXISTS Fixtures (
   id SERIAL PRIMARY KEY,
-  tenant_id TEXT NOT NULL, -- Added for multi-tenancy with RLS
+  tenant_id TEXT NOT NULL, -- Added for multi-tenancy
   home_team_id INTEGER NOT NULL,
   away_team_id INTEGER NOT NULL,
   sport_id INTEGER NOT NULL,
@@ -49,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Fixtures (
 -- Results table - stores match results
 CREATE TABLE IF NOT EXISTS Results (
   id SERIAL PRIMARY KEY,
-  tenant_id TEXT NOT NULL, -- Added for multi-tenancy with RLS
+  tenant_id TEXT NOT NULL, -- Added for multi-tenancy
   fixture_id INTEGER NOT NULL,
   home_score INTEGER NOT NULL,
   away_score INTEGER NOT NULL,
@@ -63,7 +79,7 @@ CREATE TABLE IF NOT EXISTS Results (
 -- PlayerStats table - stores individual player performance in matches
 CREATE TABLE IF NOT EXISTS PlayerStats (
   id SERIAL PRIMARY KEY,
-  tenant_id TEXT NOT NULL, -- Added for multi-tenancy with RLS
+  tenant_id TEXT NOT NULL, -- Added for multi-tenancy
   fixture_id INTEGER NOT NULL,
   person_id INTEGER NOT NULL,
   minutes_played INTEGER,
@@ -81,7 +97,7 @@ CREATE TABLE IF NOT EXISTS PlayerStats (
 -- GameEvents table - serves as an event sourcing table for all game-related events
 CREATE TABLE IF NOT EXISTS GameEvents (
   id SERIAL PRIMARY KEY,
-  tenant_id TEXT NOT NULL, -- Added for multi-tenancy with RLS
+  tenant_id TEXT NOT NULL, -- Added for multi-tenancy
   fixture_id INTEGER NOT NULL,
   event_type TEXT NOT NULL,
   event_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -207,5 +223,17 @@ BEGIN
 END $$;
 
 -- Note: Row Level Security (RLS) policies will be managed by Hasura v3
+
+-- Create a migrations tracking table to record schema versions
+CREATE TABLE IF NOT EXISTS schema_migrations (
+  version VARCHAR(255) NOT NULL PRIMARY KEY,
+  applied_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  description TEXT
+);
+
+-- Record the initial schema version
+INSERT INTO schema_migrations (version, description)
+VALUES ('V20250522_001', 'Initial schema with multi-tenancy')
+ON CONFLICT (version) DO NOTHING;
 
 COMMIT;
