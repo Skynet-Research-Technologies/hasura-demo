@@ -8,7 +8,6 @@ const {
   insertPeople,
   getPlayerStats,
   insertPlayerStats,
-  getRequestHistory
 } = require('./index');
 
 const testConfig = {
