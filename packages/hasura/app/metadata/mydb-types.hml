@@ -791,3 +791,188 @@ definition:
   graphql:
     expressionTypeName: Int64OrderByExp
 
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Timestamptz
+  graphql:
+    typeName: Timestamptz
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: TimestamptzBoolExp
+  operand:
+    scalar:
+      type: Timestamptz
+      comparisonOperators:
+        - name: _eq
+          argumentType: Timestamptz!
+        - name: _gt
+          argumentType: Timestamptz!
+        - name: _gte
+          argumentType: Timestamptz!
+        - name: _in
+          argumentType: "[Timestamptz!]!"
+        - name: _lt
+          argumentType: Timestamptz!
+        - name: _lte
+          argumentType: Timestamptz!
+        - name: _neq
+          argumentType: Timestamptz!
+      dataConnectorOperatorMapping:
+        - dataConnectorName: mydb
+          dataConnectorScalarType: timestamptz
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: TimestamptzBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: mydb
+  dataConnectorScalarType: timestamptz
+  representation: Timestamptz
+  graphql:
+    comparisonExpressionTypeName: TimestamptzComparisonExp
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: VarcharBoolExp
+  operand:
+    scalar:
+      type: String_1
+      comparisonOperators:
+        - name: _eq
+          argumentType: String_1!
+        - name: _gt
+          argumentType: String_1!
+        - name: _gte
+          argumentType: String_1!
+        - name: _ilike
+          argumentType: String_1!
+        - name: _in
+          argumentType: "[String_1!]!"
+        - name: _iregex
+          argumentType: String_1!
+        - name: _like
+          argumentType: String_1!
+        - name: _lt
+          argumentType: String_1!
+        - name: _lte
+          argumentType: String_1!
+        - name: _neq
+          argumentType: String_1!
+        - name: _nilike
+          argumentType: String_1!
+        - name: _niregex
+          argumentType: String_1!
+        - name: _nlike
+          argumentType: String_1!
+        - name: _nregex
+          argumentType: String_1!
+        - name: _regex
+          argumentType: String_1!
+        - name: starts_with
+          argumentType: String_1!
+        - name: ts_match_tt
+          argumentType: String_1!
+      dataConnectorOperatorMapping:
+        - dataConnectorName: mydb
+          dataConnectorScalarType: varchar
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: VarcharBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: mydb
+  dataConnectorScalarType: varchar
+  representation: String_1
+  graphql:
+    comparisonExpressionTypeName: String1ComparisonExp_1
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: TimestamptzAggExp
+  operand:
+    scalar:
+      aggregatedType: Timestamptz
+      aggregationFunctions:
+        - name: max
+          returnType: Timestamptz
+        - name: min
+          returnType: Timestamptz
+      dataConnectorAggregationFunctionMapping:
+        - dataConnectorName: mydb
+          dataConnectorScalarType: timestamptz
+          functionMapping:
+            max:
+              name: max
+            min:
+              name: min
+  count:
+    enable: true
+  countDistinct:
+    enable: true
+  graphql:
+    selectTypeName: TimestamptzAggExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: VarcharAggExp
+  operand:
+    scalar:
+      aggregatedType: String_1
+      aggregationFunctions:
+        - name: max
+          returnType: String_1
+        - name: min
+          returnType: String_1
+      dataConnectorAggregationFunctionMapping:
+        - dataConnectorName: mydb
+          dataConnectorScalarType: varchar
+          functionMapping:
+            max:
+              name: max
+            min:
+              name: min
+  count:
+    enable: true
+  countDistinct:
+    enable: true
+  graphql:
+    selectTypeName: VarcharAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: TimestamptzOrderByExp
+  operand:
+    scalar:
+      orderedType: Timestamptz
+      enableOrderByDirections:
+        enableAll: true
+  graphql:
+    expressionTypeName: TimestamptzOrderByExp
+

@@ -35,6 +35,9 @@ definition:
     - name: yellowCards
       type: UpdateColumnPlayerstatsYellowCards
       description: Update the 'yellow_cards' column in the 'playerstats' collection.
+    - name: tenantId
+      type: UpdateColumnPlayerstatsTenantId
+      description: Update the 'tenant_id' column in the 'playerstats' collection.
   graphql:
     typeName: UpdatePlayerstatsByFixtureIdAndPersonIdUpdateColumns
     inputTypeName: UpdatePlayerstatsByFixtureIdAndPersonIdUpdateColumnsInput
@@ -72,6 +75,9 @@ definition:
         yellowCards:
           column:
             name: yellow_cards
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -92,6 +98,7 @@ definition:
           - redCards
           - stats
           - yellowCards
+          - tenantId
 
 ---
 kind: ObjectType
@@ -177,4 +184,36 @@ definition:
   permissions:
     - role: admin
       allowExecution: true
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnPlayerstatsTenantId
+  description: Update the 'tenant_id' column in the 'playerstats' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnPlayerstatsTenantId
+    inputTypeName: UpdateColumnPlayerstatsTenantIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_playerstats_tenant_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnPlayerstatsTenantId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
 

@@ -44,6 +44,9 @@ definition:
     - name: streamId
       type: UpdateColumnGameeventsStreamId
       description: Update the 'stream_id' column in the 'gameevents' collection.
+    - name: tenantId
+      type: UpdateColumnGameeventsTenantId
+      description: Update the 'tenant_id' column in the 'gameevents' collection.
   graphql:
     typeName: UpdateGameeventsByIdUpdateColumns
     inputTypeName: UpdateGameeventsByIdUpdateColumnsInput
@@ -90,6 +93,9 @@ definition:
         streamId:
           column:
             name: stream_id
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -113,6 +119,7 @@ definition:
           - processedAt
           - sequenceNumber
           - streamId
+          - tenantId
 
 ---
 kind: ObjectType

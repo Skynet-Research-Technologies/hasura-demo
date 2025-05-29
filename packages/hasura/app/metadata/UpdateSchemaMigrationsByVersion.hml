@@ -1,0 +1,223 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSchemaMigrationsAppliedAt
+  description: Update the 'applied_at' column in the 'schema_migrations' collection
+  fields:
+    - name: set
+      type: Timestamptz!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSchemaMigrationsAppliedAt
+    inputTypeName: UpdateColumnSchemaMigrationsAppliedAtInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_schema_migrations_applied_at
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSchemaMigrationsAppliedAt
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSchemaMigrationsDescription
+  description: Update the 'description' column in the 'schema_migrations' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSchemaMigrationsDescription
+    inputTypeName: UpdateColumnSchemaMigrationsDescriptionInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_schema_migrations_description
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSchemaMigrationsDescription
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSchemaMigrationsVersion
+  description: Update the 'version' column in the 'schema_migrations' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSchemaMigrationsVersion
+    inputTypeName: UpdateColumnSchemaMigrationsVersionInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_column_schema_migrations_version
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSchemaMigrationsVersion
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateSchemaMigrationsByVersionUpdateColumns
+  description: Update the columns of the 'schema_migrations' collection
+  fields:
+    - name: appliedAt
+      type: UpdateColumnSchemaMigrationsAppliedAt
+      description: Update the 'applied_at' column in the 'schema_migrations' collection.
+    - name: description
+      type: UpdateColumnSchemaMigrationsDescription
+      description: Update the 'description' column in the 'schema_migrations' collection.
+    - name: version
+      type: UpdateColumnSchemaMigrationsVersion
+      description: Update the 'version' column in the 'schema_migrations' collection.
+  graphql:
+    typeName: UpdateSchemaMigrationsByVersionUpdateColumns
+    inputTypeName: UpdateSchemaMigrationsByVersionUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_schema_migrations_by_version_update_columns
+      fieldMapping:
+        appliedAt:
+          column:
+            name: applied_at
+        description:
+          column:
+            name: description
+        version:
+          column:
+            name: version
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateSchemaMigrationsByVersionUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - appliedAt
+          - description
+          - version
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateSchemaMigrationsByVersionResponse
+  description: Responses from the 'update_schema_migrations_by_version' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[SchemaMigrations!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateSchemaMigrationsByVersionResponse
+    inputTypeName: UpdateSchemaMigrationsByVersionResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: update_schema_migrations_by_version_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateSchemaMigrationsByVersionResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateSchemaMigrationsByVersion
+  outputType: UpdateSchemaMigrationsByVersionResponse!
+  arguments:
+    - name: keyVersion
+      type: String_1!
+    - name: postCheck
+      type: SchemaMigrationsBoolExp
+      description: Update permission post-condition predicate over the
+        'schema_migrations' collection
+    - name: preCheck
+      type: SchemaMigrationsBoolExp
+      description: Update permission pre-condition predicate over the
+        'schema_migrations' collection
+    - name: updateColumns
+      type: UpdateSchemaMigrationsByVersionUpdateColumns!
+  source:
+    dataConnectorName: mydb
+    dataConnectorCommand:
+      procedure: update_schema_migrations_by_version
+    argumentMapping:
+      keyVersion: key_version
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateSchemaMigrationsByVersion
+    rootFieldKind: Mutation
+  description: Update any row on the 'schema_migrations' collection using the 'version' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateSchemaMigrationsByVersion
+  permissions:
+    - role: admin
+      allowExecution: true
+

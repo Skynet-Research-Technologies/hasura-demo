@@ -8,12 +8,24 @@ definition:
       type: Int32
     - name: name
       type: String_1!
+    - name: tenantId
+      type: String_1
   graphql:
     typeName: InsertSportObject
     inputTypeName: InsertSportObjectInput
   dataConnectorTypeMapping:
     - dataConnectorName: mydb
       dataConnectorObjectType: insert_sport_object
+      fieldMapping:
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -26,6 +38,7 @@ definition:
         allowedFields:
           - id
           - name
+          - tenantId
 
 ---
 kind: ObjectType

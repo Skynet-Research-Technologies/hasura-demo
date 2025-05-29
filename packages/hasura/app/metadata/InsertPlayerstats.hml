@@ -24,6 +24,8 @@ definition:
       type: Jsonb
     - name: yellowCards
       type: Int32
+    - name: tenantId
+      type: String_1
   graphql:
     typeName: InsertPlayerstatsObject
     inputTypeName: InsertPlayerstatsObjectInput
@@ -61,6 +63,9 @@ definition:
         yellowCards:
           column:
             name: yellow_cards
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -81,6 +86,7 @@ definition:
           - redCards
           - stats
           - yellowCards
+          - tenantId
 
 ---
 kind: ObjectType

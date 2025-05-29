@@ -24,6 +24,8 @@ definition:
       type: Jsonb
     - name: yellowCards
       type: Int32
+    - name: tenantId
+      type: String_1!
   graphql:
     typeName: Playerstats
     inputTypeName: PlayerstatsInput
@@ -61,6 +63,9 @@ definition:
         yellowCards:
           column:
             name: yellow_cards
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -81,6 +86,7 @@ definition:
           - redCards
           - stats
           - yellowCards
+          - tenantId
 
 ---
 kind: BooleanExpressionType
@@ -111,6 +117,8 @@ definition:
           booleanExpressionType: JsonbBoolExp
         - fieldName: yellowCards
           booleanExpressionType: Int4BoolExp
+        - fieldName: tenantId
+          booleanExpressionType: TextBoolExp
       comparableRelationships:
         - relationshipName: fixture
         - relationshipName: person
@@ -150,6 +158,8 @@ definition:
           aggregateExpression: JsonbAggExp
         - fieldName: yellowCards
           aggregateExpression: Int4AggExp
+        - fieldName: tenantId
+          aggregateExpression: TextAggExp
   count:
     enable: true
   graphql:
@@ -184,6 +194,8 @@ definition:
           orderByExpression: JsonbOrderByExp
         - fieldName: yellowCards
           orderByExpression: Int32OrderByExp
+        - fieldName: tenantId
+          orderByExpression: String1OrderByExp
       orderableRelationships:
         - relationshipName: fixture
         - relationshipName: person

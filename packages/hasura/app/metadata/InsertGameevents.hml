@@ -30,6 +30,8 @@ definition:
       type: Int64
     - name: streamId
       type: String_1
+    - name: tenantId
+      type: String_1
   graphql:
     typeName: InsertGameeventsObject
     inputTypeName: InsertGameeventsObjectInput
@@ -76,6 +78,9 @@ definition:
         streamId:
           column:
             name: stream_id
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -99,6 +104,7 @@ definition:
           - processedAt
           - sequenceNumber
           - streamId
+          - tenantId
 
 ---
 kind: ObjectType

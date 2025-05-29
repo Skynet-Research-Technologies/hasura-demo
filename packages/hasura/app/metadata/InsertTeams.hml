@@ -10,6 +10,8 @@ definition:
       type: String_1!
     - name: sportId
       type: Int32
+    - name: tenantId
+      type: String_1
   graphql:
     typeName: InsertTeamsObject
     inputTypeName: InsertTeamsObjectInput
@@ -26,6 +28,9 @@ definition:
         sportId:
           column:
             name: sport_id
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -39,6 +44,7 @@ definition:
           - id
           - name
           - sportId
+          - tenantId
 
 ---
 kind: ObjectType

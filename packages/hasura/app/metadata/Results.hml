@@ -18,6 +18,8 @@ definition:
       type: Int32!
     - name: homeScore
       type: Int32!
+    - name: tenantId
+      type: String_1!
   graphql:
     typeName: Results
     inputTypeName: ResultsInput
@@ -46,6 +48,9 @@ definition:
         homeScore:
           column:
             name: home_score
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -63,6 +68,7 @@ definition:
           - winnerId
           - awayScore
           - homeScore
+          - tenantId
 
 ---
 kind: BooleanExpressionType
@@ -87,6 +93,8 @@ definition:
           booleanExpressionType: Int4BoolExp
         - fieldName: homeScore
           booleanExpressionType: Int4BoolExp
+        - fieldName: tenantId
+          booleanExpressionType: TextBoolExp
       comparableRelationships:
         - relationshipName: fixture
         - relationshipName: team
@@ -120,6 +128,8 @@ definition:
           aggregateExpression: Int4AggExp
         - fieldName: homeScore
           aggregateExpression: Int4AggExp
+        - fieldName: tenantId
+          aggregateExpression: TextAggExp
   count:
     enable: true
   graphql:
@@ -148,6 +158,8 @@ definition:
           orderByExpression: Int32OrderByExp
         - fieldName: homeScore
           orderByExpression: Int32OrderByExp
+        - fieldName: tenantId
+          orderByExpression: String1OrderByExp
       orderableRelationships:
         - relationshipName: fixture
         - relationshipName: team

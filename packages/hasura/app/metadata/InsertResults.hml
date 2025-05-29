@@ -18,6 +18,8 @@ definition:
       type: Int32!
     - name: homeScore
       type: Int32!
+    - name: tenantId
+      type: String_1
   graphql:
     typeName: InsertResultsObject
     inputTypeName: InsertResultsObjectInput
@@ -46,6 +48,9 @@ definition:
         homeScore:
           column:
             name: home_score
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -63,6 +68,7 @@ definition:
           - winnerId
           - awayScore
           - homeScore
+          - tenantId
 
 ---
 kind: ObjectType

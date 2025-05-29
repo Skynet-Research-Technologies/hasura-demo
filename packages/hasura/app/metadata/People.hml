@@ -10,6 +10,8 @@ definition:
       type: String_1!
     - name: teamId
       type: Int32
+    - name: tenantId
+      type: String_1!
   graphql:
     typeName: People
     inputTypeName: PeopleInput
@@ -26,6 +28,9 @@ definition:
         teamId:
           column:
             name: team_id
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -39,6 +44,7 @@ definition:
           - id
           - name
           - teamId
+          - tenantId
 
 ---
 kind: BooleanExpressionType
@@ -55,6 +61,8 @@ definition:
           booleanExpressionType: TextBoolExp
         - fieldName: teamId
           booleanExpressionType: Int4BoolExp
+        - fieldName: tenantId
+          booleanExpressionType: TextBoolExp
       comparableRelationships:
         - relationshipName: team
         - relationshipName: playerstats
@@ -81,6 +89,8 @@ definition:
           aggregateExpression: TextAggExp
         - fieldName: teamId
           aggregateExpression: Int4AggExp
+        - fieldName: tenantId
+          aggregateExpression: TextAggExp
   count:
     enable: true
   graphql:
@@ -101,6 +111,8 @@ definition:
           orderByExpression: String1OrderByExp
         - fieldName: teamId
           orderByExpression: Int32OrderByExp
+        - fieldName: tenantId
+          orderByExpression: String1OrderByExp
       orderableRelationships:
         - relationshipName: team
   graphql:

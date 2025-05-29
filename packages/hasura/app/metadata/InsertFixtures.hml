@@ -20,6 +20,8 @@ definition:
       type: String_1
     - name: venue
       type: String_1
+    - name: tenantId
+      type: String_1
   graphql:
     typeName: InsertFixturesObject
     inputTypeName: InsertFixturesObjectInput
@@ -51,6 +53,9 @@ definition:
         venue:
           column:
             name: venue
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -69,6 +74,7 @@ definition:
           - sportId
           - status
           - venue
+          - tenantId
 
 ---
 kind: ObjectType

@@ -1,0 +1,144 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: SchemaMigrations
+  fields:
+    - name: appliedAt
+      type: Timestamptz!
+    - name: description
+      type: String_1
+    - name: version
+      type: String_1!
+  graphql:
+    typeName: SchemaMigrations
+    inputTypeName: SchemaMigrationsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mydb
+      dataConnectorObjectType: schema_migrations
+      fieldMapping:
+        appliedAt:
+          column:
+            name: applied_at
+        description:
+          column:
+            name: description
+        version:
+          column:
+            name: version
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: SchemaMigrations
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - appliedAt
+          - description
+          - version
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: SchemaMigrationsBoolExp
+  operand:
+    object:
+      type: SchemaMigrations
+      comparableFields:
+        - fieldName: appliedAt
+          booleanExpressionType: TimestamptzBoolExp
+        - fieldName: description
+          booleanExpressionType: TextBoolExp
+        - fieldName: version
+          booleanExpressionType: VarcharBoolExp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: SchemaMigrationsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: SchemaMigrationsAggExp
+  operand:
+    object:
+      aggregatedType: SchemaMigrations
+      aggregatableFields:
+        - fieldName: appliedAt
+          aggregateExpression: TimestamptzAggExp
+        - fieldName: description
+          aggregateExpression: TextAggExp
+        - fieldName: version
+          aggregateExpression: VarcharAggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: SchemaMigrationsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: SchemaMigrationsOrderByExp
+  operand:
+    object:
+      orderedType: SchemaMigrations
+      orderableFields:
+        - fieldName: appliedAt
+          orderByExpression: TimestamptzOrderByExp
+        - fieldName: description
+          orderByExpression: String1OrderByExp
+        - fieldName: version
+          orderByExpression: String1OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: SchemaMigrationsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: SchemaMigrations
+  objectType: SchemaMigrations
+  source:
+    dataConnectorName: mydb
+    collection: schema_migrations
+  filterExpressionType: SchemaMigrationsBoolExp
+  aggregateExpression: SchemaMigrationsAggExp
+  orderByExpression: SchemaMigrationsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: schemaMigrations
+      subscription:
+        rootField: schemaMigrations
+    selectUniques:
+      - queryRootField: schemaMigrationsByVersion
+        uniqueIdentifier:
+          - version
+        subscription:
+          rootField: schemaMigrationsByVersion
+    filterInputTypeName: SchemaMigrationsFilterInput
+    aggregate:
+      queryRootField: schemaMigrationsAggregate
+      subscription:
+        rootField: schemaMigrationsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: SchemaMigrations
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

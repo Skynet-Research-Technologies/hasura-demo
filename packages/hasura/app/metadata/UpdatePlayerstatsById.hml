@@ -355,6 +355,9 @@ definition:
     - name: yellowCards
       type: UpdateColumnPlayerstatsYellowCards
       description: Update the 'yellow_cards' column in the 'playerstats' collection.
+    - name: tenantId
+      type: UpdateColumnPlayerstatsTenantId
+      description: Update the 'tenant_id' column in the 'playerstats' collection.
   graphql:
     typeName: UpdatePlayerstatsByIdUpdateColumns
     inputTypeName: UpdatePlayerstatsByIdUpdateColumnsInput
@@ -392,6 +395,9 @@ definition:
         yellowCards:
           column:
             name: yellow_cards
+        tenantId:
+          column:
+            name: tenant_id
 
 ---
 kind: TypePermissions
@@ -412,6 +418,7 @@ definition:
           - redCards
           - stats
           - yellowCards
+          - tenantId
 
 ---
 kind: ObjectType
