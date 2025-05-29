@@ -1,8 +1,15 @@
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
-const { app, closeServer } = require('.');
+const { app, createServer } = require('.');
 
 describe('Auth Server /login endpoint', () => {
+    const mockTestPort = 2999;
+    const server = createServer(mockTestPort);
+
+    afterAll(() => {
+        server.close();
+    });
+
     it('should return a JWT for valid admin credentials', async () => {
         const res = await request(app)
             .post('/login')
@@ -69,10 +76,6 @@ describe('Auth Server /login endpoint', () => {
             decoded['claims.jwt.hasura.io']['x-hasura-tenant-id']
         ).toBeDefined();
     });
-});
-
-afterAll(() => {
-    closeServer();
 });
 
 const JWT_SECRET = process.env.JWT_SECRET;

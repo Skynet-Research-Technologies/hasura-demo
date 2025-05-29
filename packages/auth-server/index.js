@@ -1,13 +1,11 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const { createJwtToken } = require('./jwt-utils');
 require('dotenv').config();
 
-const app = express();
-
-const APP_PORT = process.env.APP_PORT || 3000;
 // Secret key for signing JWTs (in production, use a secure, environment-based secret)
 const JWT_SECRET = process.env.JWT_SECRET;
 
+const app = express();
 app.use(express.json());
 
 // Login endpoint to generate JWT
@@ -29,36 +27,49 @@ app.post('/login', (req, res) => {
   // For demo, assign each user to the first organisation
   const tenantId = organisations[0].id;
 
-  // Create JWT with user claims
-  const token = jwt.sign(
-    {
-      'claims.jwt.hasura.io': {
-        'x-hasura-allowed-roles': ['admin', 'user', 'guest'],
-        'x-hasura-default-role': user.role,
-        'x-hasura-user-id': user.id.toString(),
-        'x-hasura-tenant-id': tenantId
-      },
-      sub: user.id.toString(),
-      name: user.username
-    },
-    JWT_SECRET,
-    {
-      algorithm: 'HS256',
-      expiresIn: '1h'
-    }
-  );
+  // Create JWT with user claims using the utility function
+  const token = createJwtToken({
+    userId: user.id.toString(),
+    role: user.role,
+    tenantId: tenantId,
+    username: user.username,
+    secret: JWT_SECRET,
+    expiresIn: '1h'
+  });
 
   res.json({ token });
 });
 
-const server = app.listen(APP_PORT, () => {
-  console.log(`Auth server running on http://localhost:${APP_PORT}`);
-});
+// Create server function for programmatic initialization
+function createServer(port) {
+  const serverPort = port
+  const server = app.listen(serverPort, () => {
+    console.log(`Auth server running on http://localhost:${serverPort}`);
+  });
+  
+  return {
+    app,
+    close: () => server.close()
+  };
+}
 
 module.exports = {
   app,
-  closeServer: () => server.close()
+  createServer
 };
+
+if (require.main === module) {
+  // If this file is run directly, start the server on a default port
+  const port = process.env.PORT || 3000;
+  const { close } = createServer(port);
+
+  // Handle graceful shutdown
+  process.on('SIGINT', () => {
+    close();
+    console.log('Server closed');
+    process.exit(0);
+  });
+}
 
 // Mock user database (replace with your actual user management)
 const users = {

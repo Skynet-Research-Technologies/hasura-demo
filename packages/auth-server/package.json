@@ -1,7 +1,17 @@
 {
   "name": "@hasura-demo/auth-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "exports.js",
+  "types": "exports.d.ts",
+  "exports": {
+    ".": {
+      "require": "./exports.js",
+      "types": "./exports.d.ts"
+    },
+    "./utils": {
+      "require": "./jwt-utils.js"
+    }
+  },
   "scripts": {
     "start": "node index.js",
     "test": "jest"
