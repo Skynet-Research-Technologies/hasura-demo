@@ -2,7 +2,7 @@
   "name": "@hasura-demo/graphql-client",
   "version": "1.0.0",
   "description": "GraphQL Client for Hasura DDN",
-  "main": "exports.js", 
+  "main": "exports.js",
   "type": "commonjs",
   "scripts": {
     "test:e2e": "jest",
@@ -11,11 +11,12 @@
     "start": "node example.js"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "graphql": "^16.8.1",
-    "graphql-request": "^6.1.0",
-    "dotenv": "^16.0.3"
+    "graphql-request": "^6.1.0"
   },
   "devDependencies": {
+    "@hasura-demo/auth-server": "^1.0.0",
     "jest": "^29.7.0"
   }
 }

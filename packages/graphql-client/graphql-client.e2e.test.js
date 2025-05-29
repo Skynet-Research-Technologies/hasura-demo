@@ -9,6 +9,7 @@ const {
   getPlayerStats,
   insertPlayerStats,
 } = require('./index');
+const { utils } = require('@hasura-demo/auth-server');
 
 const testConfig = {
   url: process.env.HASURA_GRAPHQL_ENDPOINT || 'http://localhost:8080/v1/graphql',
@@ -16,9 +17,65 @@ const testConfig = {
 
 describe('HasuraGraphQLClient E2E Tests', () => {
   let client;
+  let adminJwtToken;
+  const JWT_SECRET = process.env.JWT_SECRET || 'deadbeef';
 
   beforeAll(() => {
-    client = createHasuraClient(testConfig);
+    // Create an admin JWT token for authentication with required Hasura claims
+    adminJwtToken = utils.createAdminToken(JWT_SECRET, {
+      'x-hasura-organization-id': 'test-org-id',
+    });
+
+    // Initialize the client with the admin token for authentication
+    client = createHasuraClient({
+      ...testConfig,
+      jwtToken: adminJwtToken
+    });
+
+    console.log('Created Hasura client with admin JWT authentication');
+  });
+
+  describe('Authentication', () => {
+    test('should set up JWT token authentication correctly', () => {
+      // Decode the JWT token to verify its structure
+      const decodedToken = utils.verifyToken(adminJwtToken, JWT_SECRET);
+
+      // Check that the token has the correct Hasura claims
+      expect(decodedToken).toHaveProperty(['claims.jwt.hasura.io']);
+      expect(decodedToken['claims.jwt.hasura.io']).toHaveProperty('x-hasura-default-role', 'admin');
+      expect(decodedToken['claims.jwt.hasura.io']).toHaveProperty('x-hasura-user-id', 'admin-user-id');
+      expect(decodedToken['claims.jwt.hasura.io']).toHaveProperty('x-hasura-tenant-id', 'admin-tenant-id');
+
+      // Verify custom claims
+      expect(decodedToken['claims.jwt.hasura.io']).toHaveProperty('x-hasura-organization-id', 'test-org-id');
+    });
+
+    test('should be able to create user role JWT token', () => {
+      // Create a user token with limited permissions
+      const userJwtToken = utils.createJwtToken({
+        userId: 'regular-test-user',
+        role: 'user',
+        allowedRoles: ['user', 'guest'],
+        tenantId: 'test-org-id',
+        username: 'user-tester',
+        customClaims: {
+          'x-hasura-organization-id': 'test-org-id'
+        },
+        secret: JWT_SECRET,
+        expiresIn: '1h'
+      });
+
+      // Verify the token structure
+      const decodedToken = utils.verifyToken(userJwtToken, JWT_SECRET);
+      expect(decodedToken['claims.jwt.hasura.io']).toHaveProperty('x-hasura-default-role', 'user');
+      expect(decodedToken['claims.jwt.hasura.io']['x-hasura-allowed-roles']).toEqual(['user', 'guest']);
+
+      // Update the client to use the user token
+      client.setJwtToken(userJwtToken);
+
+      // Switch back to admin for any remaining tests that need it
+      client.setJwtToken(adminJwtToken);
+    });
   });
 
   describe('Fixtures API', () => {
