@@ -29,6 +29,7 @@ app.post('/login', (req, res) => {
 
   // Create JWT with user claims using the utility function
   const token = createJwtToken({
+    allowedRoles: ['admin', 'user', 'guest'],
     userId: user.id.toString(),
     role: user.role,
     tenantId: tenantId,
@@ -60,7 +61,7 @@ module.exports = {
 
 if (require.main === module) {
   // If this file is run directly, start the server on a default port
-  const port = process.env.PORT || 3000;
+  const port = process.env.APP_PORT || 3000;
   const { close } = createServer(port);
 
   // Handle graceful shutdown
